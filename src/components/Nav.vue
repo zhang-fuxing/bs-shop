@@ -9,7 +9,7 @@
               :key="index"
               role="presentation"
             >
-              <a href="#" @click="category(1)">{{ item }}</a>
+              <a href="#">{{ item }}</a>
             </li>
           </ul>
         </div>
@@ -36,23 +36,6 @@
         </div>
       </div>
 
-      <!-- <li role="presentation" class="dropdown">
-          <a
-            class="dropdown-toggle"
-            data-toggle="dropdown"
-            href="#"
-            role="button"
-            aria-haspopup="true"
-            aria-expanded="false"
-          >
-            更多 <span class="caret"></span>
-          </a>
-          <ul class="dropdown-menu">
-            <li role="presentation"><a href="#">玩具</a></li>
-            <li role="presentation"><a href="#">饰品</a></li>
-            <li role="presentation"><a href="#">植物</a></li>
-          </ul>
-        </li> -->
     </div>
 
     <div class="col-md-1 col-md-offset-1 header-bg">
@@ -69,18 +52,12 @@ import { reactive, inject, provider } from "vue";
 export default {
   setup() {
     const categoryList = reactive(["首页", "全部分类", "电脑", "衣服"]);
-
-    const category = (id) => {
-      alert(1);
-      for (let i = 0; i < selected.msg.length; i++) {
-        //selected.msg[i] = ""
-      }
-      selected.msg[id] = "active";
-    };
     return {
       categoryList,
-      category,
+
+
     };
+      inject(categoryList)
   },
 };
 </script>
