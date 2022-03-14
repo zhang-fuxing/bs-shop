@@ -56,14 +56,23 @@
             </div>
 
             <div class="col-md-4">
-                <div class="right-info">
-                    <button class="btn btn-primary" @click="addToken">添加token</button>
-                    <br>
-                    <button class="btn btn-primary" @click="showToken">显示token</button>
-                    <br>
-                    <button class="btn btn-primary" @click="remove">移除token</button>
+                <nav class="my-nav">
+                    <ul class="nav_menu nav nav-tabs">
+                        <li class="nav_menu-item" role="presentation">
+                            <a href="" target="_blank">Services</a>
+                            <ul class="nav_submenu nav nav-tabs">
+                                <li class="nav_submenu-item"
+                                    v-for="(item, index) in list"
+                                    :key="index"
+                                    role="presentation"
+                                >
+                                    <a href="#">{{ item.name }}</a>
+                                </li>
+                            </ul>
+                        </li>
 
-                </div>
+                    </ul>
+                </nav>
             </div>
         </div>
 
@@ -77,18 +86,19 @@ import HeaderSearch from "@/components/HeaderSearch.vue";
 import Category from "@/components/Category.vue";
 import Nav from "@/components/Nav.vue";
 import {useStore} from 'vuex'
+import {reactive, inject, onMounted, provide} from "vue";
+import axios from "axios";
 
 export default {
     components: {
         Header,
         HeaderSearch,
-        Category,
         Nav,
     },
     setup() {
         const store = useStore()
         const addToken = () => {
-            store.dispatch('setToken',{token:'zfiwnwiahgsdfoiwef'})
+            store.dispatch('setToken', {token: 'zfiwnwiahgsdfoiwef'})
             alert('添加成功')
         }
         const showToken = () => {
@@ -104,10 +114,25 @@ export default {
 
         }
 
+        const list=reactive([])
+        onMounted(() => {
+            axios({
+                type:'get',
+                url:'http://localhost:9000/category/getAllLeve1'
+            }).then((resp)=>{
+                console.log(resp)
+                for (let i = 0; i < resp.data.content.length; i++) {
+                    list[i]=resp.data.content[i]
+                }
+            })
+
+        })
+
         return {
             addToken,
             showToken,
             remove,
+            list,
         }
     },
 };
@@ -117,5 +142,57 @@ export default {
 .item > img {
     width: 800px;
     height: 400px;
+}
+
+a, a:hover {
+    color: #FFF;
+    text-decoration: none
+}
+
+nav ul {
+    list-style: none;
+    padding-left: 0;
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+.my-nav a {
+    display: block;
+    padding: 0 16px;
+    line-height: inherit;
+    cursor: pointer;
+}
+
+/*.nav_menu {
+    line-height: 45px;
+    font-weight: 700;
+    text-transform: uppercase;
+}*/
+
+.nav_menu-item {
+    display: inline-block;
+    position: relative;
+
+}
+
+.nav_menu-item:hover {
+    background-color: #5ebcc9;
+}
+
+.nav_menu-item:hover .nav_submenu {
+    display: block;
+}
+
+.nav_submenu {
+    font-weight: 200;
+    text-transform: none;
+    display: none;
+    position: absolute;
+    width: 150px;
+    background-color: #b2b154;
+}
+
+.nav_submenu-item:hover {
+    background: rgba(0, 0, 0, 0.1);
 }
 </style>
