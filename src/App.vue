@@ -15,6 +15,6 @@ body {
 
 }
 .container {
-  background-color: rgb(210, 211, 132);
+  background-color: rgb(255, 255, 255);
 }
 </style>

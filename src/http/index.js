@@ -1,15 +1,43 @@
 import axios from "axios";
-import stoer from "@/store"
-import {error} from "@babel/eslint-parser/lib/convert";
 
-var baseURL = 'http://localhost:9000/'
+let baseURL = 'http://localhost:9000'
+let token=localStorage.getItem("token")
 
-// eslint-disable-next-line no-unused-vars
-export function sendGet(url, param) {
-    return axios.get(url, param).then((resp) => {
-        return resp.data
-    }).catch(error => {
-        return error
-    })
+const send = {
+    post: (url, data) => {
+        return new Promise((resolve, reject) => {
+            axios({
+                baseURL,
+                type: 'post',
+                url: url,
+                data: data,
+                headers: {token},
+            }).then(resp => {
+                resolve(resp.data)
+            }).catch(error => {
+                reject(error)
+            })
+        })
+    },
+    get: (url, param) => {
+        return new Promise((resolve,reject)=>{
+            axios({
+                baseURL,
+                type:'get',
+                url:url,
+                param:param,
+                headers: [{token}]
+            })
+                .then(resp => {
+                    resolve(resp.data)
+                })
+                .catch(error => {
+                    reject(error)
+                })
+        })
+
+    }
 
 }
+
+export default send

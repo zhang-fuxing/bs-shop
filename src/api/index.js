@@ -1,0 +1,5 @@
+export const categoryLevel1 = '/category/getAllLeve1'
+export const categoryLevel2 = '/category/getAllLeve2'
+export const login = '/user/login'
+export const register = '/user/register'
+export const verifyImg = 'http://localhost:9000/user/verify'

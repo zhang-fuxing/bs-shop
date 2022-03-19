@@ -2,7 +2,7 @@
   <div class="userlogin">
     <!-- 顶部导航 -->
     <ul>
-      <li><router-link to="/home">返回首页</router-link></li>
+      <li><router-link to="/index">返回首页</router-link></li>
     </ul>
     <!-- form表单 -->
     <div class="row" style="margin: 11%">
@@ -73,8 +73,10 @@
 
 <script>
 import { reactive } from "vue";
-import axios from "axios";
 import  Header from "@/components/Header.vue"
+import {verifyImg} from "@/api";
+import send from "@/http";
+import axios from "axios";
 export default {
   components:{
     Header
@@ -85,14 +87,14 @@ export default {
       name: "",
       password: "",
       code: "",
-      url: "http://localhost:9000/app/verify",
+      url: 'http://localhost:9000/user/verify',
     });
 
-    const next = (param) => {
+    const next = (p) => {
       form.url = "";
-      axios.get(param).then(() => {
-        setTimeout((form.url = param), 100);
-      });
+      axios.get(p).then(() => {
+        setTimeout(()=> {form.url = p},100)
+      })
     };
     return {
       form,
@@ -108,7 +110,7 @@ ul {
   list-style: none;
   margin: 0;
   padding: 0;
-  
+
 }
 ul li {
   display: inline;

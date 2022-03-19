@@ -1,7 +1,7 @@
 <template>
   <div>
     <ul class="inav">
-      <li><router-link to="/home" class="nav-item">| 商城首页 |</router-link></li>
+      <li><router-link to="/" class="nav-item">| 商城首页 |</router-link></li>
       <li><router-link to="/login" class="nav-item"> 去登陆 |</router-link></li>
       <li><router-link to="/reg" class="nav-item"> 注册账号 |</router-link></li>
       <li><router-link to="/..." class="nav-item"> ... |</router-link></li>
