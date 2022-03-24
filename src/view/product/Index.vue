@@ -48,19 +48,37 @@
         </div>
 
         <div class="col-md-4">
+            <div>推荐</div>
+            <ul>
+                <li><a href="">123132</a></li>
+                <li><a href="">123132</a></li>
+                <li><a href="">123132</a></li>
+                <li><a href="">123132</a></li>
+                <li><a href="">123132</a></li>
+                <li><a href="">123132</a></li>
+                <li><a href="">123132</a></li>
+                <li><a href="">123132</a></li>
+                <li><a href="">123132</a></li>
+                <li><a href="">123132</a></li>
+                <li><a href="">123132</a></li>
 
+            </ul>
         </div>
     </div>
-    <div class="row">
+    <div class="product-card">
         <ProductTable @click="test1" v-for="(_,index) in count" :key="index">
             <template #image>
-                <img class="slot-size" src="@/assets/1/1.jpeg" alt="">
+                <img class="thumbnail slot-li li-img" src="@/assets/1/1.jpeg" alt="">
             </template>
             <template #pname>
-                <div class="slot-li li-name">123</div>
+                <div class="slot-li li-name">
+                    <text>
+                        123456789123456789 123456789123456789
+                    </text>
+                </div>
             </template>
             <template #price>
-                <div  class="slot-li li-price">12.9</div>
+                <div  class="slot-li li-price">￥ 12.9</div>
             </template>
         </ProductTable>
 
@@ -93,28 +111,51 @@ export default {
 </script>
 
 <style scoped>
+
+/* slot */
+.product-card {
+    margin: 0 0 0 20px;
+}
 .slot-li{
-    float: left;
     text-align: center;
     height: 50px;
 }
 .li-name {
-    width: 150px;
+    width: auto;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    height: 70px;
+    text-align: left;
+    font-size: 15px;
+    color: black;
 }
 .li-price {
-    width: 50px;
+    width: auto;
+    margin: 0;
+    padding: 0;
+    text-align: left;
+    height: 30px;
+    font-size: 20px;
+    color: red;
 }
+.li-img {
+    width: 200px;
+    height: 200px;
+    margin: 0;
+    padding: 0;
+    border: 0;
+}
+/* slot */
+
 .item > img {
     width: 800px;
     height: 400px;
 }
-.slot-size {
-    width: 200px;
-    height: 150px;
-}
 
 #icarousel {
-    margin-top: 10px;
+    margin: 10px 0 10px 10px;
+    padding: 0;
 }
 
 a, a:hover {
@@ -136,36 +177,8 @@ nav ul {
     cursor: pointer;
 }
 
-.nav_menu {
-    line-height: 20px;
-    font-weight: 700;
-    text-transform: uppercase;
+ul li {
+    list-style: none;
 }
 
-.nav_menu-item {
-    display: inline-block;
-    position: relative;
-
-}
-
-.nav_menu-item:hover {
-    background-color: #9ec95e;
-}
-
-.nav_menu-item:hover .nav_submenu {
-    display: block;
-}
-
-.nav_submenu {
-    font-weight: 200;
-    text-transform: none;
-    display: none;
-    position: absolute;
-    width: 150px;
-    background-color: #b2b154;
-}
-
-.nav_submenu-item:hover {
-    background: rgba(108, 69, 69, 0.1);
-}
 </style>

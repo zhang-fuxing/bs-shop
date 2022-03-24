@@ -11,10 +11,10 @@
 
 <style>
 body {
-   background-color: rgb(132, 192, 211);
+   background-color: #381924;
 
 }
 .container {
-  background-color: rgb(255, 255, 255);
+    background-color: #e0c8d1;
 }
 </style>

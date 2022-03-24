@@ -48,7 +48,7 @@
                                 id="img"
                                 :src="form.url"
                                 class="form-control"
-                                @click="next(form.url)"
+                                @click="next()"
                                 alt="请稍等"
                             />
                         </div>
@@ -73,11 +73,10 @@
 
 <script>
 import { reactive } from "vue";
-import axios from "axios";
-import  Header from "@/components/Header.vue"
+import {verifyImg} from "@/api";
 export default {
     components:{
-        Header
+
     },
     setup() {
         // do not use same name with ref
@@ -85,14 +84,12 @@ export default {
             name: "",
             password: "",
             code: "",
-            url: "http://localhost:9000/app/verify",
+            url: verifyImg,
         });
 
-        const next = (param) => {
-            form.url = "";
-            axios.get(param).then(() => {
-                setTimeout((form.url = param), 100);
-            });
+        const next = () => {
+            form.url = verifyImg+'?'+Math.ceil(Math.random()*10)
+
         };
         return {
             form,

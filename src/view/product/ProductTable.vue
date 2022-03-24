@@ -1,6 +1,6 @@
 <template>
 <div class="itable">
-    <slot name="image"></slot>
+    <slot class="slg" name="image"></slot>
     <slot name="pname"></slot>
     <slot name="price"></slot>
 </div>
@@ -18,16 +18,18 @@ export default {
 
 <style scoped>
 .itable {
-    margin: 15px;
+    margin: 5px;
     padding: 0;
+    border: 0;
     width: 200px;
-    height: 200px;
-    background-color: #7c93c5;
+    height: 300px;
+    color: rgb(174, 176, 178);
+    background-color: #f0a1a8;
     float: left;
 }
 
 .itable:hover{
-    cursor:pointer
+    cursor:pointer;
 }
 
 </style>

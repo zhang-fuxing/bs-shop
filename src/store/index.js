@@ -1,36 +1,36 @@
 import { createStore } from 'vuex'
+import {reactive} from "vue";
 
 // 创建一个新的 store 实例
 const store = createStore({
     state () {
         return {
-            context: {
-                token:''
-            }
+            token:'',
+            currentUrl: ''
         }
     },
     mutations: {
-        add(state,param) {
-            state.context.token=param.token
+        addToken(state,param) {
+            state.token=param.token
             localStorage.setItem('token', param.token)
-            alert(localStorage.getItem('token')+'===')
         },
-        remove(state) {
-            state.context.token=''
-        }
+        removeToken(state) {
+            state.token=''
+        },
+
     },
     actions: {
         setToken({commit},param) {
-            commit('add', param)
+            commit('addToken', param)
         },
         removeToken() {
             store.commit('remove')
-        }
+        },
+
     },
     getters: {
-        getToken : (state) =>  ()=> {
-            return state.context.token
-        }
+        getToken : (state) => state.token,
+
     }
 })
 export default store

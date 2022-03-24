@@ -7,8 +7,11 @@
         <!-- 分类导航 -->
         <Nav></Nav>
 
+        <div class="row">
+            <router-view></router-view>
+        </div>
 
-        <router-view></router-view>
+        <Footer></Footer>
     </div>
 </template>
 
@@ -19,24 +22,28 @@ import Nav from "@/components/Nav.vue";
 import {useStore} from 'vuex'
 import {reactive, inject, onMounted, provide, ref} from "vue";
 import send from "@/http/index.js";
-import ProductTable from "@/view/product/ProductTable";
+import Footer from "@/components/Footer";
 export default {
     components: {
         Header,
         HeaderSearch,
         Nav,
-        ProductTable
+        Footer
     },
     setup() {
 
         const store = useStore()
 
-        return {
-        }
+        return {}
     },
 };
 </script>
 
 <style scoped>
-
+/*.header{*/
+/*    position: fixed;*/
+/*    top: 11%;*/
+/*    width: 100%;*/
+/*    z-index: 999;*/
+/*}*/
 </style>

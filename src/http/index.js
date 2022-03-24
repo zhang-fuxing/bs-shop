@@ -25,8 +25,8 @@ const send = {
                 baseURL,
                 type:'get',
                 url:url,
-                param:param,
-                headers: [{token}]
+                params:param,
+                // headers: [{token}]
             })
                 .then(resp => {
                     resolve(resp.data)
