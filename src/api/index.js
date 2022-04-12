@@ -8,7 +8,7 @@ export const toCart = '/cart/toCart/'
 export const getUserCart = '/cart/'
 
 // product api
-
+export const fileupload='/pimage/file'
 
 // user api
 export const login = '/user/login'

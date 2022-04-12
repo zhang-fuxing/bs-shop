@@ -17,7 +17,7 @@
         </nav>
 
         <div class="product-card">
-            <ProductTable>
+            <ProductTable @click="toDetail(0)">
                 <template #image>
                     <img class="thumbnail slot-li li-img" src="@/assets/1/1.jpeg" alt="">
                 </template>
@@ -34,6 +34,18 @@
             </ProductTable>
         </div>
 
+
+    </div>
+
+    <div>
+        <ul class="pagelist">
+            <li><input type="button" value="首页"></li>
+            <li><input type="button" value="上一页"></li>
+            <li><input type="text" value="1" class="display"></li>
+            <li><input type="text" value="10" class="display" disabled></li>
+            <li><input type="button" value="下一页"></li>
+            <li><input type="button" value="尾页"></li>
+        </ul>
     </div>
 </template>
 
@@ -44,6 +56,7 @@ import send from "@/http/index.js";
 import {categoryLevel2} from "@/api";
 import store from "@/store";
 import ProductTable from "@/view/product/ProductTable";
+import router from "@/router";
 export default {
     name: "AllType",
     components:{
@@ -70,8 +83,13 @@ export default {
             })
         })
 
+
         return {
-            dlist
+            dlist,
+            toDetail:pid => {
+                router.push('/product/'+pid)
+            },
+            page:ref(new Array(100))
         }
     }
 }
@@ -132,4 +150,28 @@ ul li {
     border: 0;
 }
 /* slot */
+.pagelist {
+    margin-left: 25%;
+}
+.pagelist > li{
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+input {
+    border: none;
+    outline-style: none ;
+    border-radius: 3px;
+}
+input:focus {
+    outline-style: none ;
+    background-color: white;
+    border: none;
+}
+.display{
+    width: 50px;
+    background-color: #bad9cb;
+    text-align: center;
+}
 </style>

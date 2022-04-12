@@ -1,7 +1,7 @@
 <template>
-<div class="container">
-  <router-view></router-view>
-</div>
+    <div class="app-vue">
+        <router-view></router-view>
+    </div>
 </template>
 
 <script setup>
@@ -11,10 +11,10 @@
 
 <style>
 body {
-   background-color: #381924;
+   background-image: url("./assets/1/bg.jpg");
 
 }
-.container {
-    background-color: #e0c8d1;
+.app-vue {
+    margin-left: 5%;
 }
 </style>

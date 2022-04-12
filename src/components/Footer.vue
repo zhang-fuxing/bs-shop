@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="footer">
         <hr>
         <ul>
             <li>1</li>
@@ -21,5 +21,10 @@ export default {
 <style scoped>
 ul li {
     display: inline;
+}
+
+.footer hr {
+    margin: 5px 0 0 0;
+    padding: 0;
 }
 </style>

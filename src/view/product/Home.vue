@@ -1,17 +1,22 @@
 <template>
     <div class="home">
-        <!-- 顶部导航 -->
-        <Header></Header>
-        <!-- 同步搜索框 -->
-        <HeaderSearch></HeaderSearch>
-        <!-- 分类导航 -->
-        <Nav></Nav>
+       <div id="header">
+           <!-- 顶部导航 -->
+           <Header></Header>
+           <!-- 同步搜索框 -->
+           <HeaderSearch></HeaderSearch>
+           <!-- 分类导航 -->
+           <Nav></Nav>
+       </div>
 
-        <div class="row">
+        <div id="content">
             <router-view></router-view>
         </div>
 
-        <Footer></Footer>
+        <div style="clear: left"></div>
+       <div id="footer">
+           <Footer></Footer>
+       </div>
     </div>
 </template>
 
@@ -23,6 +28,7 @@ import {useStore} from 'vuex'
 import {reactive, inject, onMounted, provide, ref} from "vue";
 import send from "@/http/index.js";
 import Footer from "@/components/Footer";
+import store from "@/store";
 export default {
     components: {
         Header,
@@ -33,17 +39,25 @@ export default {
     setup() {
 
         const store = useStore()
+        const test1 = reactive({
+            name:'test1',
+            ors:'header.vue'
+        })
+        provide('test1',test1)
+        return {
 
-        return {}
+        }
     },
 };
 </script>
 
 <style scoped>
-/*.header{*/
-/*    position: fixed;*/
-/*    top: 11%;*/
-/*    width: 100%;*/
-/*    z-index: 999;*/
-/*}*/
+.home {
+    background-color: #ffffff;
+    background-image: linear-gradient(to right, #ffffff, #719dc9);
+    position: fixed;
+    width: 90%;
+    height: 100%;
+    overflow: auto;
+}
 </style>

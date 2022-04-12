@@ -24,7 +24,7 @@
                         </div>
                     </li>
                 </ul>
-            </nav>
+            </nav> 
         </div>
     </div>
 </template>

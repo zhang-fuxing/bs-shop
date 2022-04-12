@@ -2,12 +2,11 @@ import axios from "axios";
 
 let baseURL = 'http://localhost:9000'
 let token=localStorage.getItem("token")
-
+axios.defaults.baseURL = baseURL
 const send = {
     post: (url, data) => {
         return new Promise((resolve, reject) => {
             axios({
-                baseURL,
                 type: 'post',
                 url: url,
                 data: data,
@@ -22,11 +21,10 @@ const send = {
     get: (url, param) => {
         return new Promise((resolve,reject)=>{
             axios({
-                baseURL,
                 type:'get',
                 url:url,
                 params:param,
-                // headers: [{token}]
+               // headers: { 'Content-Type': 'multipart/form-data' }
             })
                 .then(resp => {
                     resolve(resp.data)
@@ -36,6 +34,21 @@ const send = {
                 })
         })
 
+    },
+    fileupload:(url, data) => {
+        let formData = new FormData()
+        for (let i = 0; i < data.length; i++) {
+            formData.append("file",data[i])
+        }
+        return new Promise((resolve,reject) => {
+            axios.post(url,formData,{headers:{'Content-Type': 'multipart/form-data'}})
+                .then(resp => {
+                    resolve(resp.data)
+                })
+                .catch(error => {
+                    reject(error)
+                })
+        })
     }
 
 }

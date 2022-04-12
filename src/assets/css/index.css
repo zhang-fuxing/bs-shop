@@ -1,0 +1,101 @@
+/*
+分页插件css
+ <ul class="pagelist">
+    <li><input type="button" value="首页"></li>
+    <li><input type="button" value="上一页"></li>
+    <li><input type="text" value="1" class="display"></li>
+    <li><input type="text" value="10" class="display" disabled></li>
+    <li><input type="button" value="下一页"></li>
+    <li><input type="button" value="尾页"></li>
+</ul>
+*/
+.pagelist {
+
+    margin-left: 25%;
+}
+
+.pagelist > li {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+input {
+    border: none;
+    outline-style: none;
+    border-radius: 3px;
+}
+
+input:focus {
+    outline-style: none;
+    background-color: white;
+    border: none;
+}
+
+.display {
+    width: 50px;
+    background-color: #bad9cb;
+    text-align: center;
+}
+
+/*****************************************************************/
+/**
+商品卡片样式
+模板：
+<div class="product-card">
+    <ProductTable @click="toDetail(0)">
+        <template #image>
+            <img class="thumbnail slot-li li-img" src="@/assets/1/1.jpeg" alt="">
+        </template>
+        <template #pname>
+            <div class="slot-li li-name">
+                <text>
+                    123456789123456789 123456789123456789
+                </text>
+            </div>
+        </template>
+        <template #price>
+            <div  class="slot-li li-price">￥ 12.9</div>
+        </template>
+    </ProductTable>
+</div>
+ */
+.product-card {
+    margin: 0;
+    float: left;
+}
+
+.slot-li {
+    text-align: center;
+    height: 50px;
+}
+
+.li-name {
+    width: auto;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    height: 70px;
+    text-align: left;
+    font-size: 15px;
+    color: black;
+}
+
+.li-price {
+    width: auto;
+    margin: 0;
+    padding: 0;
+    text-align: left;
+    height: 30px;
+    font-size: 20px;
+    color: red;
+}
+
+.li-img {
+    width: 200px;
+    height: 200px;
+    margin: 0;
+    padding: 0;
+    border: 0;
+}
+/*****************************************************************/

@@ -2,7 +2,7 @@
     <div class="userlogin">
         <!-- 顶部导航 -->
         <ul>
-            <li><router-link to="/home">返回首页</router-link></li>
+            <li><router-link to="/index">返回首页</router-link></li>
         </ul>
         <!-- form表单 -->
         <div class="row" style="margin: 11%">
@@ -111,5 +111,13 @@ ul li {
     display: inline;
     line-height: 40px;
 }
-
+.userlogin {
+    position: fixed;
+    background-color: #7c93c5;
+    background-image: linear-gradient(to right, #ffffff, #719dc9);
+    margin-left: 10%;
+    margin-top: 10%;
+    width: 50%;
+    height: 70%;
+}
 </style>

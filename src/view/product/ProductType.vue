@@ -1,8 +1,9 @@
 <template>
-    <div>
-        <nav>
-            <ul>
-                <li class="lv1" v-for="(item,index) in list" :key="index">
+    <div id="categoryPage">
+        <div class="inav">
+            <nav>
+                <ul>
+                    <li class="lv1" v-for="(item,index) in list" :key="index">
                 <span>
                     <ul class="breadcrumb">
                         <text href="javascript:void(0)">&nbsp;&nbsp; {{ item.name }} >| </text>
@@ -11,11 +12,12 @@
                         </li>
                     </ul>
                 </span>
-                </li>
-            </ul>
-        </nav>
+                    </li>
+                </ul>
+            </nav>
+        </div>
         <div class="product-card">
-            <ProductTable @click="show">
+            <ProductTable @click="toDetail(0)" v-for="index in ilist" :key="index">
                 <template #image>
                     <img class="thumbnail slot-li li-img" src="@/assets/1/1.jpeg" alt="">
                 </template>
@@ -27,20 +29,31 @@
                     </div>
                 </template>
                 <template #price>
-                    <div  class="slot-li li-price">￥ 12.9</div>
+                    <div class="slot-li li-price">￥ 12.9</div>
                 </template>
             </ProductTable>
         </div>
-
+        <div style="clear: left"></div>
+        <div class="pagination">
+            <ul class="pagelist">
+                <li><input type="button" value="首页"></li>
+                <li><input type="button" value="上一页"></li>
+                <li><input type="text" value="1" class="display"></li>
+                <li><input type="text" value="10" class="display" disabled></li>
+                <li><input type="button" value="下一页"></li>
+                <li><input type="button" value="尾页"></li>
+            </ul>
+        </div>
     </div>
 </template>
 
 <script>
 import {useRoute} from "vue-router"
-import {inject, onMounted, reactive, watch, watchEffect} from "vue";
+import {inject, onMounted, reactive, ref, watch, watchEffect} from "vue";
 import ProductTable from "@/view/product/ProductTable";
 import {getByCategoryId} from "@/api";
 import send from "@/http";
+import router from "@/router";
 
 export default {
 
@@ -96,13 +109,17 @@ export default {
         onMounted(() => {
             getLv2ById(item.id)
         })
+
         watch(() => route.params.item, id => {
             getLv2ById(id)
         })
         return {
             item,
             list,
-            show: ()=>alert(111)
+            toDetail: pid => {
+                router.push('/product/' + pid)
+            },
+            ilist: ref(new Array(50))
         }
     }
 }
@@ -122,18 +139,22 @@ ul li {
 }
 
 
-nav ul{
+nav ul {
     margin: 10px;
 }
 
 /* slot */
 .product-card {
-    margin: 0 0 0 20px;
+    margin: 0;
+    /*height: 90%;*/
+    float: left;
 }
-.slot-li{
+
+.slot-li {
     text-align: center;
     height: 50px;
 }
+
 .li-name {
     width: auto;
     margin: 0;
@@ -144,6 +165,7 @@ nav ul{
     font-size: 15px;
     color: black;
 }
+
 .li-price {
     width: auto;
     margin: 0;
@@ -153,6 +175,7 @@ nav ul{
     font-size: 20px;
     color: red;
 }
+
 .li-img {
     width: 200px;
     height: 200px;
@@ -160,5 +183,37 @@ nav ul{
     padding: 0;
     border: 0;
 }
+
 /* slot */
+
+.pagination {
+    padding: 0;
+    height: 5%;
+    margin: 0 0 0 30%;
+}
+
+.pagelist > li {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+input {
+    border: none;
+    outline-style: none;
+    border-radius: 3px;
+}
+
+input:focus {
+    outline-style: none;
+    background-color: white;
+    border: none;
+}
+
+.display {
+    width: 50px;
+    background-color: #bad9cb;
+    text-align: center;
+}
+
 </style>

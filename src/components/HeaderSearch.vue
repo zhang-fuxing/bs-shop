@@ -25,6 +25,7 @@
 </template>
 <script>
 import {useRouter} from "vue-router";
+import {inject} from "vue";
 
 export default {
     setup() {
@@ -32,6 +33,7 @@ export default {
         const toCart = () => {
           router.push('/cart')
         }
+
 
         return {
             toCart

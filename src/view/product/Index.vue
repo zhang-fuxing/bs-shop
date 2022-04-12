@@ -1,13 +1,26 @@
 <template>
+
     <!-- 轮播图 -->
-    <div class="row" id="icarousel">
+    <div class="" id="icarousel">
         <!-- 轮播图 -->
         <div class="col-md-8">
             <!-- 点击轮播 -->
-            <div id="myCarousel" class="carousel slide">
+            <div id="myCarousel" class="carousel slide" data-ride="carousel">
+                <ol class="carousel-indicators">
+                    <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+                    <li data-target="#myCarousel" data-slide-to="1"></li>
+                    <li data-target="#myCarousel" data-slide-to="2"></li>
+                    <li data-target="#myCarousel" data-slide-to="3"></li>
+                </ol>
                 <!-- 轮播（Carousel）项目 -->
-                <div class="carousel-inner">
+                <div class="carousel-inner" role="listbox">
                     <div class="item active">
+                        <img src="http://localhost:9000/static/1/3.png" alt=""/>
+                        <div class="carousel-caption">
+                            图片描述
+                        </div>
+                    </div>
+                    <div class="item">
                         <img src="@/assets/1/4.png" alt=""/>
                     </div>
                     <div class="item">
@@ -65,8 +78,10 @@
             </ul>
         </div>
     </div>
+
     <div class="product-card">
-        <ProductTable @click="test1" v-for="(_,index) in count" :key="index">
+        <h1>1</h1>
+        <ProductTable @click="toDetail(index)" v-for="(_,index) in count" :key="index">
             <template #image>
                 <img class="thumbnail slot-li li-img" src="@/assets/1/1.jpeg" alt="">
             </template>
@@ -78,16 +93,45 @@
                 </div>
             </template>
             <template #price>
-                <div  class="slot-li li-price">￥ 12.9</div>
+                <div class="slot-li li-price">￥ 12.9</div>
             </template>
         </ProductTable>
 
+        <div style="clear: left"></div>
+        <h2>2</h2>
+        <ProductTable @click="toDetail(index)" v-for="(_,index) in count" :key="index">
+            <template #image>
+                <img class="thumbnail slot-li li-img" src="@/assets/1/1.jpeg" alt="">
+            </template>
+            <template #pname>
+                <div class="slot-li li-name">
+                    <text>
+                        123456789123456789 123456789123456789
+                    </text>
+                </div>
+            </template>
+            <template #price>
+                <div class="slot-li li-price">￥ 12.9</div>
+            </template>
+        </ProductTable>
     </div>
+
+
+
 </template>
 
 <script>
 import ProductTable from "@/view/product/ProductTable";
 import {ref} from "vue";
+import $ from "jquery"
+import store from "@/store";
+import {useRouter} from "vue-router";
+
+
+$('.carousel').carousel({
+    interval: 3000,
+    pause: 'hover'
+})
 
 export default {
     // eslint-disable-next-line vue/multi-word-component-names
@@ -95,31 +139,40 @@ export default {
     components: {
         ProductTable
     },
+
     setup() {
-        const test1 = () => {
-          alert(1)
-        }
+
+        const router = useRouter()
 
 
-        const count = ref(new Array(20))
+        const count = ref(new Array(10))
         return {
             count,
-            test1,
+            token: store.getters.getToken,
+            toDetail:pid => {
+                router.push('/product/'+pid)
+            },
+
         }
     }
 }
+
+
 </script>
 
 <style scoped>
 
 /* slot */
 .product-card {
-    margin: 0 0 0 20px;
+    margin: 0;
+    float: left;
 }
-.slot-li{
+
+.slot-li {
     text-align: center;
     height: 50px;
 }
+
 .li-name {
     width: auto;
     margin: 0;
@@ -130,6 +183,7 @@ export default {
     font-size: 15px;
     color: black;
 }
+
 .li-price {
     width: auto;
     margin: 0;
@@ -139,6 +193,7 @@ export default {
     font-size: 20px;
     color: red;
 }
+
 .li-img {
     width: 200px;
     height: 200px;
@@ -146,10 +201,11 @@ export default {
     padding: 0;
     border: 0;
 }
+
 /* slot */
 
 .item > img {
-    width: 800px;
+    width: 100%;
     height: 400px;
 }
 
@@ -180,5 +236,4 @@ nav ul {
 ul li {
     list-style: none;
 }
-
 </style>
