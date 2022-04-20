@@ -38,7 +38,8 @@ const routes = [
         redirect: '/admin/index',
         children: [
             {path: 'index', component: () => import('@/view/admin/active/ProductHome.vue')},
-            {path: 'addProduct', component: () => import('@/view/admin/active/AddProduct.vue')}
+            {path: 'addProduct', component: () => import('@/view/admin/active/AddProduct.vue')},
+            {path: 'updateProduct', component: () => import('@/view/admin/active/FileUpload.vue')},
         ]
     }
 

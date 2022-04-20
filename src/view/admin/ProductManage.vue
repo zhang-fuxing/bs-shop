@@ -1,13 +1,14 @@
 <template>
     <div class="pm">
-        <router-view></router-view>
+        <ManageNav></ManageNav>
+        <div class="content">
+            <router-view></router-view>
+        </div>
     </div>
 </template>
 
-<script>
-export default {
-    name: "ProductManage"
-}
+<script setup>
+import ManageNav from "@/view/admin/ManageNav.vue"
 </script>
 
 <style scoped>
@@ -19,4 +20,7 @@ div.pm{
     background-color: #b4cde7;
 }
 
+div.content {
+    margin-left: 15%;
+}
 </style>

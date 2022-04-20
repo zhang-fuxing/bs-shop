@@ -1,78 +1,57 @@
 <template>
-    <input type="file" multiple @change="getFileList($event)">
+    <div class="phome">
+        <div class="input-group col-md-6 col-md-offset-3">
+            <input type="text" class="form-control" placeholder="搜索商品..." />
+            <span class="input-group-btn">
+          <button class="btn btn-default" type="button">搜索</button>
+        </span>
+        </div>
+        <div class="tabData">
+            <ProductItem></ProductItem>
+        </div>
+        <div class="options">
 
-    <div class="preview" v-if="tempList.length !== 0">
-        <div
-            class="thumbnail" v-for="ls in tempList"
-        >
-            <img class="preview-img" :src="ls.url" alt="..." :title="ls.name">
         </div>
     </div>
-
-    <div style="clear: left"></div>
-    <input type="button" @click="upload" value="上传">
-
 </template>
 
-<script>
+<script setup>
+// 预览文件列表
+import {Search} from "@element-plus/icons-vue"
+
+import {reactive} from "vue";
+import ProductItem from "@/view/admin/active/ProductItem.vue"
+import HeaderSearch from "@/components/HeaderSearch.vue"
+import {fileupload1, fileupload2} from "@/api";
 import send from "@/http";
-import {ElMessage, UploadProps, UploadUserFile} from "element-plus";
-import {Plus} from "@element-plus/icons-vue"
-import {ref, reactive, onMounted} from "vue";
-import {fileupload} from "@/api";
 
-export default {
-    name: "ProductHome",
-    components: {Plus},
-    setup() {
-        let fileList = reactive([])
-        let tempList = reactive([])
-        const getFileList = (e) => {
-            for (let i = 0; i < e.target.files.length; i++) {
-                fileList[i] = e.target.files[i]
-                tempList[i] = {url: URL.createObjectURL(e.target.files[i]), name: e.target.files[i].name}
-            }
-        }
 
-        const upload = () => {
-            send.fileupload(fileupload,fileList).then(resp => {
-                if (resp.code === 0 && resp.message==='success') {
-                    alert("上传成功")
-                } else {
-                    alert("上传失败")
-                }
+let tableData = reactive([
+    {
+        date: '2016-05-02',
+        name: '王小虎',
+        address: '上海市普陀区金沙江路 1518 弄',
+    },
+    {
+        date: '2016-05-04',
+        name: '王小虎',
+        address: '上海市普陀区金沙江路 1517 弄',
+    },
+    {
+        date: '2016-05-01',
+        name: '王小虎',
+        address: '上海市普陀区金沙江路 1519 弄',
+    },
+    {
+        date: '2016-05-03',
+        name: '王小虎',
+        address: '上海市普陀区金沙江路 1516 弄',
+    },
+])
 
-            })
-        }
-        return {
-            fileList,
-            tempList,
-            getFileList,
-            upload
-        }
-    }
-
-}
 </script>
 
 <style scoped>
-.preview {
-    position: absolute;
-    margin: 0 4%;
 
-    height: 30%;
-    overflow: auto;
-    background-color: white;
-}
 
-.thumbnail {
-    float: left;
-    margin: 10px 5px 0 5px;
-    padding: 0;
-}
-
-.preview-img {
-    width: 240px;
-    height: 200px;
-}
 </style>

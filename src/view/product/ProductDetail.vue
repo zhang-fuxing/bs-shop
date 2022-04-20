@@ -91,10 +91,16 @@ export default {
     setup() {
 
         const route = useRoute()
-        const ptable = reactive([{
-            component: 'ProductInfo',
-            tabName: '商品详情'
-        }, {component: 'Appraise',tabName: '用户评价'}])
+        const ptable = reactive([
+            {
+                component: 'ProductInfo',
+                tabName: '商品详情'
+            },
+            {
+                component: 'Appraise',
+                tabName: '用户评价'
+            }
+        ])
 
         let currentTab = ref('ProductInfo')
 

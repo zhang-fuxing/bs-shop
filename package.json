@@ -39,7 +39,10 @@
     "parserOptions": {
       "parser": "@babel/eslint-parser"
     },
-    "rules": {}
+    "rules": {
+      "test": "/.vue$/",
+      "loader": "vue-loader"
+    }
   },
   "browserslist": [
     "> 1%",
