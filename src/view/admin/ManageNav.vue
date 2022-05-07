@@ -1,51 +1,81 @@
 <template>
-    <nav>
-        <ul class="nav nav-tabs nav-stacked">
-            <li role="presentation" :class="{active : currentNav === 'home'}">
-                <a href="javascript:void(0);" @click="changeNav('home')">首页</a>
-            </li>
-            <li role="presentation" :class="{active : currentNav === 'addProduct'}">
-                <a href="javascript:void(0);" @click="changeNav('addProduct')">添加商品</a>
-            </li>
-            <li role="presentation" :class="{active : currentNav === 'updateProduct'}">
-                <a href="javascript:void(0);" @click="changeNav('updateProduct')">修改商品</a>
-            </li>
-        </ul>
-    </nav>
+    <el-col :span="4">
+        <h5 class="mb-2">憨批商城后台管理</h5>
+<!--        unique-opened-->
+        <el-menu
+            active-text-color="#ffd04b"
+            background-color="#545c64"
+            class="el-menu-vertical-demo"
+            :default-active="currentIndex"
+            text-color="#fff"
+            @open="handleOpen"
+            @close="handleClose"
+            router
+        >
+            <el-sub-menu index="1">
+                <template #title>
+                    <el-icon>
+                        <location/>
+                    </el-icon>
+                    <span>商品管理</span>
+                </template>
+                <el-menu-item index="index">商品列表</el-menu-item>
+                <el-menu-item index="addProduct">添加商品</el-menu-item>
+                <el-menu-item index="orderProcessing">订单处理</el-menu-item>
+                <el-menu-item index="recommend">推荐商品</el-menu-item>
+            </el-sub-menu>
+
+            <el-sub-menu index="2">
+                <template #title>
+                    <el-icon>
+                        <icon-menu/>
+                    </el-icon>
+                    <span>用户管理</span>
+                </template>
+                <el-menu-item index="userList">
+                    用户列表
+                </el-menu-item>
+                <el-menu-item index="freeze">
+                    冻结管理
+                </el-menu-item>
+            </el-sub-menu>
+
+        </el-menu>
+    </el-col>
 </template>
 
 <script setup>
+import {ref, watch} from 'vue'
+import {
+    Document,
+    Menu as IconMenu,
+    Location,
+    Setting,
+} from '@element-plus/icons-vue'
+import {useRoute} from "vue-router";
 
-import {useRouter} from "vue-router";
-import {computed, onMounted, ref} from "vue";
 
-const router = useRouter();
-let currentNav = ref('home')
+const route = useRoute()
 
-const changeNav = (target) => {
-    switch (target) {
-            case 'home':
-                router.push('/admin/index')
-                currentNav.value = target
-                break
-            case 'addProduct':
-                router.push('/admin/addProduct')
-                currentNav.value = target
-                break
-            case 'updateProduct':
-                router.push('/admin/updateProduct')
-                currentNav.value = target
-                break
-    }
+const currentIndex = ref('index')
+
+
+watch(()=>route.path,newPath => {
+     let str = newPath.split('/');
+     currentIndex.value = str[str.length-1]
+})
+
+const handleOpen = (key, keyPath) => {
+
 }
+const handleClose = (key, keyPath) => {
 
+}
 </script>
 
-<style scoped>
-nav  {
-    position: fixed;
-    width: 10%;
-    height: 100%;
+<style>
+.el-menu-vertical-demo:not(.el-menu--collapse) {
+    width: 200px;
+    min-height: 400px;
 }
-
 </style>

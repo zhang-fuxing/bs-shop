@@ -1,55 +1,47 @@
 <template>
-    <div             class="menu" >
-        <div
-            :key="(item.id).toString()"
-            v-for="(item,index) in category.slice(0,5)"
-            class="menu-item"
-        >
-            {{item.name}}
-
-        </div>
-
-
-    </div>
-
-
+    <nav>
+        <ul class="breadcrumb thumbnail">
+            <li v-for="lv2 in list2" :key="lv2.id">
+                <a href="javascript:void(0);" @click="$emit('emitDid',lv2.id,props.categoryId)">{{ lv2.name }}</a>
+            </li>
+        </ul>
+    </nav>
 </template>
 
 <script setup>
-import {onMounted, reactive, ref} from 'vue'
+import {onMounted, reactive, watch} from 'vue'
 import send from "@/http";
-import {categoryLevel1} from "@/api";
+import {lv2} from "@/api";
 
-const activeIndex2 = ref('1')
-const handleSelect = (key) => {
-    console.log(key)
-}
-let category = reactive([])
-onMounted(() => {
-    send.post(categoryLevel1).then((data) => {
-        for (let i = 0; i < data.content.length; i++) {
-            category[i] = data.content[i]
+const props = defineProps(['categoryId'])
+let list2 = reactive([{}])
+
+const getLv2 = (cid) => {
+    if (list2.length > 0) {
+        list2.splice(0)
+    }
+    send.get(lv2 + cid).then((resp) => {
+        for (let i = 0; i < resp.content.length; i++) {
+            list2[i] = resp.content[i]
         }
-
     })
+
+}
+
+onMounted(() => {
+    getLv2(props.categoryId)
 })
+watch(() => props.categoryId, () => {
+    getLv2(props.categoryId)
+})
+
 </script>
 <style scoped>
-.menu{
-    width:100%;
-    background-color:grey;
-    display: flex;
-    flex-direction: row;
-    height: 40px;
+nav {
+    margin: 0 45px;
 }
-.menu-item{
-    border: 1px solid #000;
-    width: 6%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
- }
-.menu-item:hover{
-    background-color: #ffa;
+
+ul {
+    margin: 0;
 }
 </style>

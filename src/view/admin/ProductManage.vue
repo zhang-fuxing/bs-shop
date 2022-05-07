@@ -1,9 +1,14 @@
 <template>
     <div class="pm">
-        <ManageNav></ManageNav>
-        <div class="content">
-            <router-view></router-view>
-        </div>
+        <el-row>
+            <ManageNav></ManageNav>
+<!--            <div class="content">
+
+            </div>-->
+            <el-col :span="20">
+                <router-view></router-view>
+            </el-col>
+        </el-row>
     </div>
 </template>
 
@@ -12,12 +17,12 @@ import ManageNav from "@/view/admin/ManageNav.vue"
 </script>
 
 <style scoped>
-div.pm{
+div.pm {
     position: fixed;
     width: 90%;
     height: 100%;
     overflow: auto;
-    background-color: #b4cde7;
+    background-color: #ffffff;
 }
 
 div.content {

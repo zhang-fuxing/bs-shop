@@ -1,7 +1,8 @@
 import axios from "axios";
-
+import store from "@/store/index.js"
 let baseURL = 'http://localhost:9000'
-let token = localStorage.getItem("token")
+let token = store.state.token
+// localStorage.getItem("token")
 axios.defaults.baseURL = baseURL
 const send = {
     post: (url, data) => {
@@ -29,7 +30,7 @@ const send = {
             formData.append("file", data[i])
         }
         return new Promise((resolve, reject) => {
-            axios.post(url, formData, {headers: {'Content-Type': 'multipart/form-data'}})
+            axios.post(url, formData, {headers: {'Content-Type': 'multipart/form-data',token}})
                 .then(resp => {
                     resolve(resp.data)
                 })

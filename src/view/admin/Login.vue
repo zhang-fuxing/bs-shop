@@ -1,6 +1,5 @@
 <template>
     <div class="login">
-        <router-link to="/index" style="margin-left: 60px">[返回首页<el-icon><House /></el-icon>]</router-link>
         <div class="login-model">
 
             <el-switch
@@ -71,7 +70,7 @@
 <script setup>
 
 
-import {reactive, ref} from "vue";
+import {onMounted, reactive, ref} from "vue";
 import send from "@/http";
 
 import {Right,Message,Iphone,House,Key} from "@element-plus/icons-vue";
@@ -112,13 +111,20 @@ const submit = () => {
         if (resp.code === 0 && resp.message === 'success') {
             localStorage.setItem("token",resp.content)
             store.dispatch('setToken', {token:resp.content})
-            router.push('/index')
+            router.push('/admin/index')
         }
     })
 }
 const switchover = (url) => {
     urlI.value = url +'?'+Math.ceil(Math.random()*10)
 }
+
+onMounted(()=>{
+    if (localStorage.getItem('token') !== null) {
+        store.dispatch('setToken',{token:localStorage.getItem('token')})
+        router.push('/admin/index')
+    }
+})
 </script>
 
 <style scoped>
@@ -132,6 +138,7 @@ div.login {
 }
 
 .login-model {
+
     margin: 20px 60px 60px 60px;
 }
 </style>

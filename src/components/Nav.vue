@@ -1,94 +1,119 @@
 <template>
     <div class="row" id="nav-size">
-        <div class="row">
-            <nav class="my-nav">
-                <ul class="nav_menu nav nav-pills">
-                    <li
-                        class="nav_menu-item"
-                        role="presentation"
-                        v-for="(item,index) in categoryLi"
-                        :key="index"
-                        :class="item.id === liAttr.preId ? liAttr.active:liAttr.noActive"
-                    >
-                        <a href="javascript:void(0)" @click="toOtherPage(item)">{{ item.name }}</a>
-                    </li>
-                    <li class="nav_menu-item uc"
-                        role="presentation"
-                        @click="toUserCenter"
-                    >
-                        <div>
-                            <i class="user" @click="add">
-                                <img class=" img-circle center" id="header-bg" src="@/assets/1/3.png" alt=""/><br>
-                                <i>个人中心</i>
-                            </i>
-                        </div>
-                    </li>
-                </ul>
-            </nav> 
-        </div>
+        <nav>
+            <ul class="nav nav-tabs">
+                <li role="presentation"
+                    :class="{active : currentNav===index}"
+                    v-for="(li,index) in cli"
+                    :key="li.id"
+                >
+                    <a href="javascript:void(0)" @click="toOtherPage(li,index)">{{ li.name }}</a>
+                </li>
+            </ul>
+        </nav>
     </div>
 </template>
 
-<script>
-import {reactive, onMounted} from "vue";
+<script setup>
+import {reactive, onMounted, ref, onBeforeUpdate, onBeforeMount, watchEffect, watch} from "vue";
 import send from "@/http/index.js";
-import {useRouter} from "vue-router"
+import {useRoute, useRouter} from "vue-router"
 import {categoryLevel1} from "@/api";
 import store from "@/store";
 
-export default {
-    setup() {
-        let categoryLi = reactive([{id: 101, name: "首页"}, {id: 102, name: "全部分类"}])
-        const liAttr = reactive({
-            preId: 101,
-            active: 'active',
-            noActive: ''
-
-        })
-        onMounted(() => {
-            send.post(categoryLevel1).then((data) => {
-                for (let i = 0; i < data.content.length; i++) {
-                    categoryLi[i + 2] = data.content[i]
-                }
-            })
-        })
-        const setLiActive = (currentIndex) => {
-            liAttr.preId = currentIndex
+onBeforeMount(() => currentNav.value = store.state.currentNav)
+onMounted(() => {
+    send.post(categoryLevel1).then((data) => {
+        for (let i = 0; i < data.content.length; i++) {
+            cli[i + 2] = data.content[i]
         }
+    })
+
+    console.log(currentNav.value)
+
+})
+
+const router = useRouter()
+const route = useRoute()
+
+let cli = reactive([{id: 101, name: "首页"}, {id: 102, name: "全部分类"}])
+let currentNav = ref()
+
+watch(() => route.path, (param) => {
+    switch (param) {
+        case '/index':
+            currentNav.value = 0
+            store.state.currentNav = 0
+            break
+        case '/all':
+            currentNav.value = 1
+            store.state.currentNav = 1
+            break
+        case '/1':
+            currentNav.value = 2
+            store.state.currentNav = 2
+            break
+        case '/2':
+            currentNav.value = 3
+            store.state.currentNav = 3
+            break
+        case '/3':
+            currentNav.value = 4
+            store.state.currentNav = 4
+            break
+        case '/4':
+            currentNav.value = 5
+            store.state.currentNav = 5
+            break
+        case '/5':
+            currentNav.value = 6
+            store.state.currentNav = 6
+            break
+        case '/6':
+            currentNav.value = 7
+            store.state.currentNav = 7
+            break
+        case '/7':
+            currentNav.value = 8
+            store.state.currentNav = 8
+            break
+        case '/8':
+            currentNav.value = 9
+            store.state.currentNav = 9
+            break
+        case '/9':
+            currentNav.value = 10
+            store.state.currentNav = 10
+            break
+        case '/10':
+            currentNav.value = 11
+            store.state.currentNav = 11
+            break
+        case '/11':
+            currentNav.value = 12
+            store.state.currentNav = 12
+            break
+        case '/12':
+            currentNav.value = 13
+            store.state.currentNav = 13
+            break
+    }
+
+})
+
+const toOtherPage = (item, index) => {
+    if (item.name === '首页') {
+        router.push('/index')
+    } else if (item.name === '全部分类') {
+        router.push('/all')
+    } else {
+        router.push('/' + item.id)
+    }
+}
 
 
-        const router = useRouter()
-
-        const toOtherPage = (item) => {
-            setLiActive(item.id)
-            if (item.name === '首页') {
-                router.push('/index')
-            } else if (item.name === '全部分类') {
-                router.push('/all')
-            } else {
-                router.push('/' + item.id)
-            }
-        }
-
-        const add = () => {
-            store.dispatch('setToken', {token: 'zmfienasf-fejiwfnsfewa-AFWjjsaiefwf'})
-        }
 
 
-        return {
-            liAttr,
-            categoryLi,
-            toOtherPage,
-            setLiActive,
-            add,
-            token: store.getters.getToken,
-            toUserCenter: (id) => {
-                router.push('/center')
-            }
-        };
-
-    },
-};
 </script>
 
 <style scoped>
@@ -142,7 +167,8 @@ nav ul {
 .uc {
     float: right;
 }
+
 .uc:hover {
-    cursor:pointer;
+    cursor: pointer;
 }
 </style>

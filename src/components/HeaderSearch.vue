@@ -6,39 +6,55 @@
 
     <div class="col-md-6">
       <div class="input-group">
-        <input type="text" class="form-control" placeholder="搜索商品..." />
+        <input type="text" class="form-control" v-model="searchText" placeholder="搜索商品..." />
         <span class="input-group-btn">
-          <button class="btn btn-default" type="button">搜索</button>
+          <button class="btn btn-default" type="button" @click="searchProduct">搜索</button>
         </span>
       </div>
     </div>
 
     <div class="col-md-2">
-        <div class="cart" @click="toCart">
-            <img src="@/assets/cart_icon.jpeg" class="img-circle" alt="">
-            <span class="badge">1</span>
-            <br/>
-            <span class="carts">购物车</span>
-        </div>
+        <el-button type="primary" color="red" @click="toCart">
+            <el-icon size="30px">
+                <shopping-cart/>
+            </el-icon>
+            <span>购物车</span>
+        </el-button>
     </div>
   </div>
 </template>
-<script>
+<script setup>
 import {useRouter} from "vue-router";
-import {inject} from "vue";
+import {inject, ref} from "vue";
+import {ShoppingCart} from "@element-plus/icons-vue";
+import store from "@/store";
+import {ElMessage} from "element-plus";
+import send from "@/http";
+import {cartList, search} from "@/api";
 
-export default {
-    setup() {
-        const router = useRouter()
-        const toCart = () => {
-          router.push('/cart')
-        }
-
-
-        return {
-            toCart
-        }
+const router = useRouter()
+const searchText = ref('')
+const toCart = () => {
+    if (store.state.token === null) {
+        ElMessage.error("未登录，请先登录")
+        return
     }
+    send.post(cartList).then(resp=>{
+        router.push('/cart')
+    })
+}
+
+const searchProduct = () => {
+    send.post(search+searchText.value).then(resp => {
+        if (store.state.productSet.length !== 0) {
+            store.state.productSet.length = 0;
+        }
+        if (resp.code === 0 && resp.content !== null) {
+            for (let i = 0; i < resp.content.length; i++) {
+                store.state.productSet.push(resp.content[i])
+            }
+        }
+    })
 }
 </script>
 <style scoped>

@@ -1,5 +1,6 @@
 <template>
     <div class="add-product container">
+        <h2>填写商品信息</h2>
         <form class="form-horizontal">
             <div class="form-group">
                 <div style="float: left">
@@ -7,7 +8,7 @@
                 </div>
                 <div id="getCategory">
                     <div class="col-md-5">
-                        <select class="form-control" id="category" required @change="getCate2">
+                        <select class="form-control" id="category" required @change="getCate2" ref="select1">
                             <option selected disabled>分类选择</option>
                             <option v-for="cate in catelist" :key="cate.id" :value="cate.id">
                                 {{ cate.id + '.' + cate.name }}
@@ -15,10 +16,10 @@
                         </select>
                     </div>
                     <div v-if="detailList.length !== 0" class="col-md-4">
-                        <select class="form-control" id="category2">
+                        <select class="form-control" id="category2" ref="select2">
                             <option selected disabled>分类选择</option>
                             <option v-for="list in detailList" :key="list.id" :value="list.id">
-                                {{ list.id + '.' + list.name }}
+                                {{ list.name }}
                             </option>
                         </select>
                     </div>
@@ -47,13 +48,28 @@
             </div>
 
             <div class="form-group" style="clear: left">
-                <label class="control-label">商品描述</label>
-                <br>
-                <textarea style="resize:none" cols="120" rows="10" v-model="product.description"></textarea>
+                <div>
+                    <v-form-render :form-json="formJson" :form-data="formData" :option-data="optionData" ref="vFormRef">
+                    </v-form-render>
+                </div>
             </div>
 
-            <el-button type="primary" round @click="submit">提交</el-button>
-            <el-button type="danger" round>重置</el-button>
+            <h2>上传预览图</h2>
+            <FileUpload
+                :uploadUrl="'http://localhost:9000/pimage/file/1'"
+            ></FileUpload>
+            <h2>上传详细图</h2>
+            <FileUpload
+                @get-files="getListImg"
+                :uploadUrl="'http://localhost:9000/pimage/file/2'"
+
+            ></FileUpload>
+
+            <div>
+                <el-button type="primary" round @click="submit">提交</el-button>
+                <el-button type="danger" round>重置</el-button>
+            </div>
+
         </form>
 
     </div>
@@ -62,13 +78,35 @@
 <script setup>
 import {onMounted, reactive, ref, watch} from "vue";
 import send from "@/http";
-import {addProduct, categoryLevel1, lv2} from "@/api";
+import {addProduct, categoryLevel1, lv2, renderJson} from "@/api";
+import Store from "@/store";
+import FileUpload from "./FileUpload"
+import {ElMessage} from "element-plus";
 
 
 // 一级分类列表
-let catelist = reactive([]);
+const catelist = reactive([]);
 // 二级分类列表
-let detailList = reactive([]);
+const detailList = reactive([]);
+const product = reactive({
+    pname: '',
+    description: '',
+    unitPrice: null,
+    inventoryNum: null,
+
+})
+
+const select1 = ref('select1')
+const select2 = ref('select2')
+const data = {
+    categoryId: null,
+    ctgId: null,
+    pname: null,
+    description: null,
+    unitPrice: null,
+    inventoryNum: null
+}
+
 
 // 根据一级分类id获取二级分类信息列表
 const getCate2 = () => {
@@ -93,38 +131,35 @@ onMounted(() => {
 
 })
 
-const product = reactive({
-    pname: '',
-    description: '',
-    unitPrice: 0.0,
-    inventoryNum: 0,
 
-})
 const submit = () => {
-  let data = {
-      categoryId: document.getElementById('category').value,
-      ctgId: document.getElementById('category2').value,
-      pname: product.pname,
-      description: product.description,
-      unitPrice: product.unitPrice,
-      inventoryNum: product.inventoryNum
-  }
-  send.post(addProduct,data).then(resp => {
-      if (resp.code === 0) {
-          alert('添加成功')
-      }
-  })
+    // 获取富文本编辑器内容
+    vFormRef.value.getFormData().then(formData => {
+       data.description = (JSON.stringify(formData.productDescription))
+    }).catch(error => {
+        // Form Validation failed
+        ElMessage.error(error)
+    })
+
 }
+
+
+const getListImg = (val) => {
+
+}
+
+
+// 富文本
+const formJson = reactive(renderJson)
+const formData = reactive({})
+const optionData = reactive({})
+const vFormRef = ref(null)
 
 </script>
 
 
 <style scoped>
-/*.file input {*/
-/*    position: absolute;*/
-/*    font-size: 100px;*/
-/*    right: 0;*/
-/*    top: 0;*/
-/*    opacity: 0;*/
-/*}*/
+.add-product {
+    margin: 30px 10px
+}
 </style>

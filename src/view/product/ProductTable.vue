@@ -6,14 +6,8 @@
 </div>
 </template>
 
-<script>
-export default {
-    name: "ProductTable",
-    setup() {
+<script setup>
 
-    }
-
-}
 </script>
 
 <style scoped>

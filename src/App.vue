@@ -5,13 +5,20 @@
 </template>
 
 <script setup>
+import {onMounted} from "vue";
+import store from "@/store";
 
+onMounted(()=>{
+    if (localStorage.getItem('token') !== null) {
+        store.dispatch('setToken',{token: localStorage.getItem('token')})
+    }
+})
 </script>
 
 
 <style>
 body {
-   background-image: url("./assets/1/bg.jpg");
+   background-color: black;
 
 }
 .app-vue {

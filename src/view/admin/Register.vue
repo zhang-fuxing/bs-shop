@@ -15,15 +15,15 @@
             @submit.prevent
         >
             <el-form-item label="用户名" prop="nickname" class="label-center-align required">
-                <el-input v-model="regUser.uname" type="text" clearable placeholder="用户名不可重复" @change="checkUnames">
+                <el-input v-model="regUser.uname" type="text" clearable placeholder="用户名不可重复">
                 </el-input>
             </el-form-item>
 
             <el-form-item label="手机" prop="phone" class="label-center-align required">
-                <el-input v-model="regUser.phone" type="text" clearable placeholder="请输入电话号码" @change="checkPhones"/>
+                <el-input v-model="regUser.phone" type="text" clearable placeholder="请输入电话号码"/>
             </el-form-item>
             <el-form-item label="邮箱" prop="email" class="label-center-align">
-                <el-input v-model="regUser.email" clearable placeholder="请输入您的邮箱" type="text" @change="checkEmails"/>
+                <el-input v-model="regUser.email" clearable placeholder="请输入您的邮箱" type="text"/>
             </el-form-item>
             <el-form-item label="密码" prop="password" class="label-center-align required">
                 <el-input type="password" :show-password="true" v-model="regUser.password" clearable placeholder="请输入您的登录密码"/>
@@ -66,7 +66,7 @@
             <el-button type="primary" style="width: 520px" @click="submit">注册</el-button>
         </el-form>
         <br>
-        <router-link to="/login">返回登录</router-link>
+        <router-link to="/admin/login">返回登录</router-link>
     </div>
 </template>
 
@@ -74,9 +74,6 @@
 import Header from "@/components/Header.vue"
 import {Right,Message,Iphone,House,Key} from "@element-plus/icons-vue";
 import {reactive, ref} from "vue";
-import send from "@/http";
-import {checkEmail, checkPhone, checkUname} from "@/api";
-import {ElMessage} from "element-plus";
 const urlI = ref('http://localhost:9000/user/verify')
 const regUser = reactive({
     nickname:'',
@@ -89,34 +86,6 @@ const regUser = reactive({
 })
 const switchover = (url) => {
     urlI.value = url +'?'+Math.ceil(Math.random()*10)
-}
-
-const checkEmails = () => {
-    send.get(checkEmail+regUser.email).then(rs => {
-        if (rs.code === -1) {
-            ElMessage.error(rs.message)
-        }
-    })
-}
-const checkUnames = () => {
-    send.get(checkUname+regUser.uname).then(rs => {
-        if (rs.code === -1) {
-            ElMessage.error(rs.message)
-        }
-    })
-}
-const checkPhones = () => {
-    send.get(checkPhone+regUser.phone).then(rs => {
-        if (rs.code === -1) {
-            ElMessage.error(rs.message)
-        }
-    })
-}
-
-const submit = () => {
-    send.post(register,regUser).then(resp => {
-        console.log(resp)
-    })
 }
 </script>
 <style scoped>

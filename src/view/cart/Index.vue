@@ -1,66 +1,49 @@
 <template>
     <div class="cart-page">
-        <el-affix :offset="1">
-            <Header></Header>
-            <Nav2></Nav2>
-        </el-affix>
+        <Header></Header>
+        <el-row>
+            <el-col :span="8">
+                icon
+            </el-col>
+            <el-col :span="8">
+                <el-input v-model="str"  placeholder="Please input" clearable />
+            </el-col>
+            <el-col :span="8">
+                <el-button type="primary" plain>Primary</el-button>
+            </el-col>
+        </el-row>
 
-        <div class="content">
-            <h1>cart {{ id }}</h1>
-            <h1>cart {{ id }}</h1>
-            <h1>cart {{ id }}</h1>
-            <h1>cart {{ id }}</h1>
-            <h1>cart {{ id }}</h1>
-            <h1>cart {{ id }}</h1>
-            <h1>cart {{ id }}</h1>
-            <h1>cart {{ id }}</h1>
-            <h1>cart {{ id }}</h1>
-            <h1>cart {{ id }}</h1>
-            <h1>cart {{ id }}</h1>
-            <h1>cart {{ id }}</h1>
-            <h1>cart {{ id }}</h1>
-            <h1>cart {{ id }}</h1>
-            <h1>cart {{ id }}</h1>
-            <h1>cart {{ id }}</h1>
-            <h1>cart {{ id }}</h1>
-            <h1>cart {{ id }}</h1>
-            <h1>cart {{ id }}</h1>
-            <h1>cart {{ id }}</h1>
-            <h1>cart {{ id }}</h1>
-            <h1>cart {{ id }}</h1>
-            <h1>cart {{ id }}</h1>
-            <h1>cart {{ id }}</h1>
-            <h1>cart {{ id }}</h1>
-            <h1>cart {{ id }}</h1>
-            <h1>cart {{ id }}</h1>
-            <h1>cart {{ id }}</h1>
-            <h1>cart {{ id }}</h1>
-            <h1>cart {{ id }}</h1>
-            <h1>cart {{ id }}</h1>
-            <h1>cart {{ id }}</h1>
-            <h1>cart {{ id }}</h1>
-            <h1>cart {{ id }}</h1>
-            <h1>cart {{ id }}</h1>
-        </div>
+
+
+        <!--cart content-->
+        <CartContent :uid="uid"></CartContent>
+        <!--cart content-->
+
 
         <dviv class="footer">
             <Footer></Footer>
         </dviv>
     </div>
-
 </template>
 
 <script setup>
-import Nav2 from "@/components/Nav2.vue"
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import {useRoute} from "vue-router";
-import {ref} from "vue";
+import {onMounted, ref} from "vue";
+import CartContent from "@/view/cart/CartContent.vue"
+import store from "@/store";
 
 const route = useRoute();
 let id = ref(route.params.id)
+let str = ref("")
+let uid = ref(1)
 
-
+onMounted(()=>{
+    if (store.state.uid !== null) {
+        uid = store.getters.getUid
+    }
+})
 </script>
 
 <style scoped>
@@ -74,5 +57,11 @@ let id = ref(route.params.id)
 
 }
 
+nav {
+    background-color: #1f2f3d;
+}
 
+nav > ul > li:first-child {
+    margin-left: 20px;
+}
 </style>

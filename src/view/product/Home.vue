@@ -54,7 +54,7 @@ export default {
 <style scoped>
 .home {
     background-color: #ffffff;
-    background-image: linear-gradient(to right, #ffffff, #719dc9);
+    /*background-image: linear-gradient(to right, #c9a953, #e00a0a);*/
     position: fixed;
     width: 90%;
     height: 100%;

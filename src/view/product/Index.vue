@@ -80,91 +80,109 @@
     </div>
 
     <div class="product-card">
-        <h1>1</h1>
-        <ProductTable @click="toDetail(index)" v-for="(_,index) in count" :key="index">
+        <div class="cut-off-rule"><p style="text-align: center;font-size: 40px">1F 商品推荐</p></div>
+        <ProductTable @click="getProductDetail(f1.pid)" v-for="(f1,index) in list1" :key="index">
             <template #image>
-                <img class="thumbnail slot-li li-img" src="@/assets/1/1.jpeg" alt="">
+                <img class="thumbnail slot-li li-img" :src="f1.pimg" alt="">
             </template>
             <template #pname>
                 <div class="slot-li li-name">
-                    <text>
-                        123456789123456789 123456789123456789
-                    </text>
+                    <p>{{f1.pname}}</p>
                 </div>
             </template>
             <template #price>
-                <div class="slot-li li-price">￥ 12.9</div>
+                <div class="slot-li li-price">￥ {{f1.price}}</div>
             </template>
         </ProductTable>
-
         <div style="clear: left"></div>
-        <h2>2</h2>
-        <ProductTable @click="toDetail(index)" v-for="(_,index) in count" :key="index">
+
+
+        <div class="cut-off-rule"><p style="text-align: center;font-size: 40px">2F 商品推荐</p></div>
+        <ProductTable @click="getProductDetail(f2.pid)" v-for="(f2,index) in list2" :key="index">
             <template #image>
-                <img class="thumbnail slot-li li-img" src="@/assets/1/1.jpeg" alt="">
+                <img class="thumbnail slot-li li-img" :src="f2.pimg" alt="">
             </template>
             <template #pname>
                 <div class="slot-li li-name">
-                    <text>
-                        123456789123456789 123456789123456789
-                    </text>
+                    <p>{{f2.pname}}</p>
                 </div>
             </template>
             <template #price>
-                <div class="slot-li li-price">￥ 12.9</div>
+                <div class="slot-li li-price">￥ {{f2.price}}</div>
             </template>
         </ProductTable>
     </div>
 
 
-
 </template>
 
-<script>
+<script setup>
 import ProductTable from "@/view/product/ProductTable";
-import {ref} from "vue";
+import {onMounted, reactive, ref} from "vue";
 import $ from "jquery"
 import store from "@/store";
 import {useRouter} from "vue-router";
+import {rmlist} from "@/api";
+import send from "@/http";
+
+(()=>{
+    $('.carousel').carousel({
+        interval: 3000,
+        pause: 'hover'
+    })
+})();
 
 
-$('.carousel').carousel({
-    interval: 3000,
-    pause: 'hover'
-})
+const router = useRouter();
+const count = ref(new Array(10))
+let list1 = reactive([])
+let list2 = reactive([])
 
-export default {
-    // eslint-disable-next-line vue/multi-word-component-names
-    name: "Index.vue",
-    components: {
-        ProductTable
-    },
-
-    setup() {
-
-        const router = useRouter()
-
-
-        const count = ref(new Array(10))
-        return {
-            count,
-            token: store.getters.getToken,
-            toDetail:pid => {
-                router.push('/product/'+pid)
-            },
-
+// 获取推荐列表
+const getRmList = () => {
+    send.post(rmlist).then(res=>{
+        console.log(res)
+        for (let i = 0; i < res.content.length; i++) {
+            if(res.content[i].floor === 1) {
+                list1.push(res.content[i])
+            }
+            if(res.content[i].floor === 2) {
+                list2.push(res.content[i])
+            }
         }
-    }
+    })
+
 }
 
+onMounted(()=>{
+    getRmList();
+})
+
+const getProductDetail = (productId) => {
+    router.push('/product/'+productId)
+}
 
 </script>
 
 <style scoped>
+p {
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    word-break: break-all;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+}
+.cut-off-rule {
+    background-color: #be7040;
+    color: white;
+    width: 100%;
+    height: 60px;
+}
 
 /* slot */
 .product-card {
-    margin: 0;
+    margin: 30px;
     float: left;
 }
 
