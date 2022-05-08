@@ -1,7 +1,15 @@
 <template>
     <div class="user-list">
         <h2> 用户信息列表</h2>
-
+        <el-row>
+            <el-col :span="10" :offset="6">
+                <el-input type="text">
+                    <template #append>
+                        <el-button type="primary">搜索</el-button>
+                    </template>
+                </el-input>
+            </el-col>
+        </el-row>
         <el-table :data="userList" stripe>
             <el-table-column prop="uid" label="用户id" width="200"/>
             <el-table-column prop="nickname" label="用户昵称" width="130"/>
@@ -29,7 +37,7 @@
             </el-table-column>
             <el-table-column label="操作">
                 <template #default="sc">
-                    <el-button type="primary" color="red">重置用户密码</el-button>
+                    <el-button type="primary" color="red" @click="resetPwd(sc.row.id)">重置用户密码</el-button>
                 </template>
             </el-table-column>
         </el-table>
@@ -40,13 +48,19 @@
 
 import {onMounted, provide, reactive} from "vue";
 import send from "@/http";
-import {getUserList} from "@/api";
+import {getUserList, remakePwd} from "@/api";
 import Freeze from "./Freeze"
+import {ElMessage} from "element-plus";
 
 
 
 const freezeList = []
 const userList = reactive([])
+const resetPwd = (uid) => {
+    send.post(remakePwd+uid).then(resp => {
+        ElMessage.success("新密码以发送到用户邮箱");
+    })
+}
 onMounted(() => {
     send.post(getUserList).then(resp => {
         for (const user of resp.content) {

@@ -1,5 +1,14 @@
 <template>
-    Freeze.vue
+    <el-row>
+        <el-col :span="10" :offset="6">
+            <el-input type="text">
+                <template #append>
+                    <el-button type="primary">搜索</el-button>
+                </template>
+            </el-input>
+        </el-col>
+    </el-row>
+
     <br>
     <span>用户状态: </span>
     <el-switch
@@ -43,7 +52,7 @@
         </el-table-column>
         <el-table-column label="操作">
             <template #default="sc">
-                <el-button type="primary" color="red">解冻</el-button>
+                <el-button type="primary" color="red" @click="unfreeze(sc.row.id)">解冻</el-button>
             </template>
         </el-table-column>
     </el-table>
@@ -77,7 +86,7 @@
         </el-table-column>
         <el-table-column label="操作">
             <template #default="sc">
-                <el-button type="primary" color="red">冻结用户</el-button>
+                <el-button type="primary" color="red" @click="freezeUser(sc.row.id)">冻结用户</el-button>
             </template>
         </el-table-column>
     </el-table>
@@ -88,13 +97,29 @@
 
 import {onMounted, reactive, ref} from "vue";
 import send from "@/http";
-import {getFreezeList, getUserList} from "@/api";
+import {freeze_api, getFreezeList, getUserList, unfreeze_api} from "@/api";
+import {ElMessage} from "element-plus";
 
 const freezeList = reactive([]);
 const userList = reactive([])
 const value1 = ref(true)
-onMounted(() => {
 
+const freezeUser = (uid) => {
+    send.post(freeze_api+uid).then(resp => {
+        ElMessage.success("已冻结该用户")
+        init()
+    })
+}
+
+const unfreeze = (uid) => {
+    send.post(unfreeze_api+uid).then(resp => {
+        ElMessage.success("解冻成功")
+        init()
+    })
+}
+const init = () => {
+    freezeList.length = 0
+    userList.length = 0
     send.post(getFreezeList).then(rs => {
         for (let user of rs.content) {
             freezeList.push(user)
@@ -107,8 +132,9 @@ onMounted(() => {
                 userList.push(user)
         }
     })
-
-
+}
+onMounted(() => {
+    init()
 })
 
 </script>

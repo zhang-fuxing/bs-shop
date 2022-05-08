@@ -1,7 +1,7 @@
 <template>
     <div style="margin-top: 20px">
         <el-row>
-            <el-col :span="4">静态文本占位</el-col>
+            <el-col :span="4">当前时间 {{currentDate}}</el-col>
             <el-col :span="16">
                 <el-input v-model="searchContent" placeholder="搜索一下">
                     <template #append>
@@ -35,7 +35,7 @@
                     <el-table-column prop="inventoryNum" label="库存" width="100"/>
                     <el-table-column label="操作">
                         <template #default="scope">
-                            <el-button type="primary" :icon="Edit" @click="editProductInfo">编辑</el-button>
+                            <el-button type="primary" :icon="Edit" @click="editProductInfo(scope.row)">编辑</el-button>
                             <el-button type="success" :icon="List">详情</el-button>
                             <el-button type="danger" :icon="Delete">删除</el-button>
                         </template>
@@ -45,10 +45,11 @@
             </el-row>
 
             <el-pagination
-                :page-size="20"
-                :pager-count="11"
+                :page-size="page.pageSize"
+                :total="pageTotal"
                 layout="prev, pager, next"
-                :total="1000"
+
+                @current-change="pageChange"
             />
         </template>
     </div>
@@ -57,17 +58,29 @@
     <el-dialog
         v-model="dialogVisible"
         title="修改商品"
-        width="30%"
+        width="80%"
         :before-close="handleClose"
+        center
     >
-        <FileUpload></FileUpload>
+        <UpdateProduct :product="product"></UpdateProduct>
         <template #footer>
-      <span class="dialog-footer">
-        <el-button @click="dialogVisible = false">Cancel</el-button>
-        <el-button type="primary" @click="dialogVisible = false"
-        >Confirm</el-button
-        >
-      </span>
+          <span class="dialog-footer">
+             <div class="productSubmit">
+                <el-row>
+                    <el-col :span="2" :offset="9" class="grid-cell">
+                        <div class="static-content-item">
+                            <el-button type="primary" @click="dialogVisible = false">提交</el-button>
+                        </div>
+                    </el-col>
+                    <el-col :span="2" :offset="1" class="grid-cell">
+                        <div class="static-content-item">
+                            <el-button type="primary" color="red" @click="dialogVisible = false">取消</el-button>
+                        </div>
+                    </el-col>
+                </el-row>
+                <hr>
+            </div>
+          </span>
         </template>
     </el-dialog>
 </template>
@@ -75,12 +88,12 @@
 <script setup>
 // 预览文件列表
 import {Search, Delete, Edit, List, Plus} from "@element-plus/icons-vue"
-import {onMounted, reactive, ref} from "vue";
-import FileUpload from "./FileUpload"
-import {fileupload1, fileupload2, products} from "@/api";
+import {onBeforeMount, onMounted, reactive, ref} from "vue";
+import {fileupload1, fileupload2, productCount, products} from "@/api";
 import send from "@/http";
 import {ElMessageBox} from 'element-plus'
 import {useRouter} from "vue-router";
+import UpdateProduct from './UpdateProduct'
 
 
 const searchContent = ref();
@@ -93,7 +106,10 @@ const page = {
 const productList = reactive([])
 const dialogVisible = ref(false)
 const router = useRouter()
-
+const product = ref({})
+const pageTotal = ref()
+const date = new Date()
+const currentDate = ref(date.toLocaleTimeString())
 
 const getProductList = (page) => {
     send.post(products, page).then(resp => {
@@ -105,31 +121,44 @@ const getProductList = (page) => {
         }
     })
 }
-const editProductInfo = () => {
-    window.open(
-        router.resolve({
-            path: '/files',
-            params:{name:'123'}
-        }).href, '_blank')
+const editProductInfo = (row) => {
+    dialogVisible.value = true;
+    product.value = row
 }
 
-onMounted(() => {
-    page.currentPage = 1;
-    page.pageSize = 10;
-    getProductList(page);
-    console.log(productList)
-})
-
-
 const handleClose = () => {
-    ElMessageBox.confirm('Are you sure to close this dialog?')
+        ElMessageBox.confirm('Are you sure to close this dialog?')
         .then(() => {
-
+            dialogVisible.value = false
         })
         .catch(() => {
             // catch error
         })
 }
+
+const pageChange = (nextPage) => {
+    page.currentPage = nextPage
+    page.pageSize = 10
+    getProductList(page)
+
+}
+const getPageTotal = () => {
+    return  send.get(productCount).then(resp => {
+        return resp.content
+    })
+
+
+}
+
+onMounted(async () => {
+    page.currentPage = 1;
+    page.pageSize = 10;
+    getProductList(page);
+    pageTotal.value = (await getPageTotal())
+    console.log(pageTotal.value)
+})
+
+
 </script>
 
 <style scoped>

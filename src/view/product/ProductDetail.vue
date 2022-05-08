@@ -65,7 +65,7 @@
         <el-dialog
             v-model="centerDialogVisible"
             title="确认订单"
-            width="30%"
+            width="80%"
             destroy-on-close
             center
         >

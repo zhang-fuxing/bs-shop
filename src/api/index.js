@@ -18,7 +18,7 @@ export const fileupload2 = '/pimage/file/detail'
 
 // /pimage/imgList/productId
 export const productImage = '/pimage/imgList/'
-export const addProduct = '/product/addProduct'
+export const addProduct = '/product/add'
 export const products = '/product/list'
 export const productCount = '/product/count'
 
@@ -32,6 +32,8 @@ export const productInfo = '/product/productInfo/'
 // 推荐列表 首页展示
 export const rmlist = '/recommend/list'
 
+export const removeRM = '/recommend/remove/'
+export const addrm = '/recommend/add/'
 
 // user api
 export const login = '/user/login'
@@ -42,6 +44,10 @@ export const getEstimateByProduct = '/estimate/product/'
 export const getEstimateByUser = '/estimate/user/'
 export const addEstimate = '/estimate/add/'
 export const estimateSet = '/estimate/user'
+export const remakePwd = '/user/remake/'
+
+export const freeze_api='/user/freeze/'
+export const unfreeze_api='/user/unfreeze/'
 
 
 // address api
@@ -70,7 +76,10 @@ export const createOrder = '/order/addOrder'
 export const createOrderByCart = '/order/addBatch/'
 
 export const getOrderSet = '/order/listForUser'
+export const getOrderSet1 = '/order/list'
 export const getOrderReceive = '/order/receive'
+export const changeStatus = '/order/sendGoods/'
+
 
 
 export const renderJson = {

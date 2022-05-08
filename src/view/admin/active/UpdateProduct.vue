@@ -57,11 +57,11 @@ https://www.vform666.com
         <el-form-item label="预览图片" prop="previewList">
             <el-upload
                 :action="uploadPreview"
-                :headers="{token: store.state.token}"
+                :file-list="previewListFileList"
+                :headers="{token:store.state.token}"
                 list-type="picture-card"
                 show-file-list
                 :limit="3"
-                :on-success="previewSuccess"
             >
                 <template #default>
                     <el-icon>
@@ -73,10 +73,11 @@ https://www.vform666.com
         <el-form-item label="详情图片" prop="detailsList">
             <el-upload
                 :action="uploadDetails"
-                :headers="{token: store.state.token}"
-                :on-success="detailsSuccess"
+                :file-list="detailsListFileList"
+                :headers="{token:store.state.token}"
                 list-type="picture-card"
-                show-file-list :limit="3">
+                show-file-list
+                :limit="3">
                 <template
                     #default>
                     <el-icon>
@@ -85,38 +86,23 @@ https://www.vform666.com
                 </template>
             </el-upload>
         </el-form-item>
-        <div class="productSubmit">
-            <el-row>
-
-                <el-col :span="2" :offset="9" class="grid-cell">
-                    <div class="static-content-item">
-                        <el-button type="primary" @click="submitForm">提交</el-button>
-                    </div>
-                </el-col>
-                <el-col :span="2" :offset="1" class="grid-cell">
-                    <div class="static-content-item">
-                        <el-button type="primary" color="red" @click="resetForm">重置</el-button>
-                    </div>
-                </el-col>
-            </el-row>
-            <hr>
-        </div>
-
     </el-form>
 </template>
 
 <script setup>
 import {Plus} from "@element-plus/icons-vue"
 import {
+    defineComponent,
+    toRefs,
     reactive,
     getCurrentInstance, ref, onMounted, watch
 } from 'vue'
-import {uploadPreview, uploadDetails, renderJson, categoryLevel1, lv2, addProduct} from "@/api";
+import {uploadPreview, uploadDetails, renderJson, categoryLevel1, lv2, productImage} from "@/api";
 import send from "@/http";
-import store from '@/store'
-import {ElMessage} from "element-plus";
+import store from "@/store";
 
 
+const props = defineProps(['product'])
 const state = reactive({
     formData: {
         cid: "",
@@ -139,61 +125,26 @@ const state = reactive({
     detailsListUploadData: {},
 })
 const instance = getCurrentInstance()
-const submitForm = () => {
-    vFormRef.value.getFormData().then(formData1 => {
-        let product
-        if (previewImageList.length !== 0) {
-            product = {
-                categoryId: state.formData.cid,
-                ctgId: state.formData.did,
-                pimg: previewImageList[0].domain + previewImageList[0].projectPath + previewImageList[0].name,
-                pname: state.formData.productName,
-                unitPrice: state.formData.productPrice,
-                inventoryNum: state.formData.storeNum,
-                description: formData1.productDescription
-            }
+const previewListFileList = ref([])
+const detailsListFileList = ref([])
 
-        } else {
-            product = {
-                categoryId: state.formData.cid,
-                ctgId: state.formData.did,
-                pname: state.formData.productName,
-                description: formData1.productDescription
-            }
-        }
-        let data = {
-            product: product,
-            previewImage: previewImageList,
-            detailImage: detailsImageList
-        }
-        send.post(addProduct,data).then(resp => {
-            ElMessage.success("商品ID：" + resp.content)
-            previewImageList.length = 0
-            detailsImageList.length = 0
-            resetForm()
-        })
+
+
+
+
+const submitForm = () => {
+    instance.ctx.$refs['vForm'].validate(valid => {
 
     })
-
-
 }
 const resetForm = () => {
     instance.ctx.$refs['vForm'].resetFields()
 }
 
-let previewImageList = []
-let detailsImageList = []
-
-const previewSuccess = (resp) => {
-    previewImageList.push(resp.content)
-
-    console.log(previewImageList)
+const selTest = () => {
+    alert(1)
 }
 
-const detailsSuccess = (resp) => {
-        detailsImageList.push(resp.content)
-
-}
 
 onMounted(() => {
     send.get(categoryLevel1).then(resp => {
@@ -201,8 +152,30 @@ onMounted(() => {
             state.cidOptions[i] = resp.content[i]
         }
     })
+    send.get(lv2 + props.product.categoryId).then(resp => {
+        for (let i = 0; i < resp.content.length; i++) {
+            state.didOptions[i] = resp.content[i]
+        }
+    })
+    send.get(productImage+props.product.id).then(resp => {
+        for (let i = 0; i < resp.content.length; i++) {
+            let img = resp.content[i]
+            if (img.imgType === 1)
+                previewListFileList.value.push({url: img.domain+img.projectPath+img.name,name: img.name})
+            if (img.imgType === 2)
+                detailsListFileList.value.push({url: img.domain+img.projectPath+img.name,name: img.name})
+        }
+    })
+
+    state.formData.cid = props.product.categoryId
+    state.formData.did = props.product.ctgId
+    state.formData.productName = props.product.pname
+    state.formData.productPrice = props.product.unitPrice
+    state.formData.storeNum = props.product.inventoryNum
+    vFormRef.value = props.product.description
+
 })
-watch(() => state.formData.cid, newCid => {
+watch(()=>state.formData.cid, newCid => {
     if (state.didOptions.length !== 0) {
         state.didOptions.length = 0
     }
