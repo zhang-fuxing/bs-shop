@@ -16,6 +16,10 @@ export const removeCartItems = '/cart/remove/'
 export const fileupload1 = '/pimage/file/head'
 export const fileupload2 = '/pimage/file/detail'
 
+export const carouselUpload = '/carousel/append'
+export const icarouselList = '/carousel/list'
+export const removeOneCarousel = '/carousel/remove/'
+
 // /pimage/imgList/productId
 export const productImage = '/pimage/imgList/'
 export const addProduct = '/product/add'
@@ -39,6 +43,7 @@ export const addrm = '/recommend/add/'
 export const login = '/user/login'
 export const register = '/user/register'
 export const userInfo = "/user/info"
+export const updatePassword = '/user/updatePassword'
 
 export const getEstimateByProduct = '/estimate/product/'
 export const getEstimateByUser = '/estimate/user/'
@@ -78,7 +83,9 @@ export const createOrderByCart = '/order/addBatch/'
 export const getOrderSet = '/order/listForUser'
 export const getOrderSet1 = '/order/list'
 export const getOrderReceive = '/order/receive'
+export const getOrderReceive2 = '/order/receive2'
 export const changeStatus = '/order/sendGoods/'
+export const received = '/order/received/'
 
 
 

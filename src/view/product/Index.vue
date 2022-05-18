@@ -5,76 +5,24 @@
         <!-- 轮播图 -->
         <div class="col-md-8">
             <!-- 点击轮播 -->
-            <div id="myCarousel" class="carousel slide" data-ride="carousel">
-                <ol class="carousel-indicators">
-                    <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
-                    <li data-target="#myCarousel" data-slide-to="1"></li>
-                    <li data-target="#myCarousel" data-slide-to="2"></li>
-                    <li data-target="#myCarousel" data-slide-to="3"></li>
-                </ol>
-                <!-- 轮播（Carousel）项目 -->
-                <div class="carousel-inner" role="listbox">
-                    <div class="item active">
-                        <img src="http://localhost:9000/static/1/3.png" alt=""/>
-                        <div class="carousel-caption">
-                            图片描述
-                        </div>
-                    </div>
-                    <div class="item">
-                        <img src="@/assets/1/4.png" alt=""/>
-                    </div>
-                    <div class="item">
-                        <img src="@/assets/1/5.jpg" alt=""/>
-                    </div>
-                    <div class="item">
-                        <img src="@/assets/1/6.jpg" alt=""/>
-                    </div>
-                </div>
-                <!-- 轮播（Carousel）导航 -->
-                <div>
-                    <a
-                        class="left carousel-control"
-                        href="#myCarousel"
-                        role="button"
-                        data-slide="prev"
-                    >
-              <span
-                  class="glyphicon glyphicon-chevron-left"
-                  aria-hidden="true"
-              ></span>
-                        <span class="sr-only">Previous</span>
-                    </a>
-                    <a
-                        class="right carousel-control"
-                        href="#myCarousel"
-                        role="button"
-                        data-slide="next"
-                    >
-              <span
-                  class="glyphicon glyphicon-chevron-right"
-                  aria-hidden="true"
-              ></span>
-                        <span class="sr-only">Next</span>
-                    </a>
-                </div>
-            </div>
+            <el-carousel indicator-position="outside" height="550px">
+                <el-carousel-item v-for="item in carouselLists" :key="item">
+                    <img :src="item.url" style="object-fit: fill;height: 550px;width: 100%" />
+                </el-carousel-item>
+            </el-carousel>
         </div>
 
         <div class="col-md-4">
             <div>推荐</div>
             <ul>
-                <li><a href="">123132</a></li>
-                <li><a href="">123132</a></li>
-                <li><a href="">123132</a></li>
-                <li><a href="">123132</a></li>
-                <li><a href="">123132</a></li>
-                <li><a href="">123132</a></li>
-                <li><a href="">123132</a></li>
-                <li><a href="">123132</a></li>
-                <li><a href="">123132</a></li>
-                <li><a href="">123132</a></li>
-                <li><a href="">123132</a></li>
 
+                <li v-for="rm in list1.slice(0,7)">
+                    <a href="javascript:;" @click="getProductDetail(rm.pid)">
+                        <img :src="rm.pimg" alt="0" style="height: 20px;width: 40px">
+                    <p>{{ rm.pname }}</p>
+                        <hr style="margin: 1px"/>
+                    </a>
+                </li>
             </ul>
         </div>
     </div>
@@ -122,7 +70,7 @@ import {onMounted, reactive, ref} from "vue";
 import $ from "jquery"
 import store from "@/store";
 import {useRouter} from "vue-router";
-import {rmlist} from "@/api";
+import {icarouselList, rmlist} from "@/api";
 import send from "@/http";
 
 (()=>{
@@ -137,7 +85,7 @@ const router = useRouter();
 const count = ref(new Array(10))
 let list1 = reactive([])
 let list2 = reactive([])
-
+const carouselLists = ref([])
 // 获取推荐列表
 const getRmList = () => {
     send.post(rmlist).then(res=>{
@@ -156,6 +104,12 @@ const getRmList = () => {
 
 onMounted(()=>{
     getRmList();
+    send.get(icarouselList).then(resp => {
+        for (let i = 0; i < resp.content.length; i++) {
+            carouselLists.value.push(resp.content[i])
+        }
+    })
+
 })
 
 const getProductDetail = (productId) => {
@@ -165,6 +119,8 @@ const getProductDetail = (productId) => {
 </script>
 
 <style scoped>
+
+
 p {
     -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
@@ -253,5 +209,22 @@ nav ul {
 
 ul li {
     list-style: none;
+}
+
+
+.el-carousel__item h3 {
+    display: flex;
+    color: #475669;
+    opacity: 0.75;
+    line-height: 600px;
+    margin: 0;
+}
+
+.el-carousel__item:nth-child(2n) {
+    background-color: #99a9bf;
+}
+
+.el-carousel__item:nth-child(2n + 1) {
+    background-color: #d3dce6;
 }
 </style>

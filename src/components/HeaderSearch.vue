@@ -1,7 +1,7 @@
 <template>
   <div class="row header-search">
     <div class="col-md-3">
-      <i>憨批商城</i>
+      <i>I-SHOP</i>
     </div>
 
     <div class="col-md-6">

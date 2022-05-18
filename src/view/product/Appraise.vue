@@ -1,16 +1,23 @@
 <template>
-    <!--    <div v-html="testData.appraisetext">-->
-    <!--    </div>-->
+
     <template v-for="esi in estimateList">
         <hr>
-        <div style="font-size: 20px;color: black;background-color: #0cb2ec;margin: 0 50px">{{ esi.nickname }}</div>
-        <div v-html="esi.content" style="width: 100%;margin-left: 50px" class="es-content"></div>
+        <div
+            style="font-size: 20px;color: black;background-color: #be5332;margin: 0 50px;width: 300px;border-radius: 10px">
+            <span style="margin-left: 20px">{{ esi.nickname }}</span>
+        </div>
+        <div v-html="esi.content"
+             style="margin-left: 50px;background-color: #f0a1a8;width: 90%;
+             border-radius: 3px;height: 200px;position: relative;overflow: auto;
+             margin-top: 20px"
+             class="es-content">
+        </div>
     </template>
     <hr>
     <div style="margin-top: 50px">
         <v-form-render :form-json="formJson" :form-data="formData" :option-data="optionData" ref="vFormRef">
         </v-form-render>
-        <el-button type="primary" @click="submitForm" style="margin-left: 100px">不好评价</el-button>
+        <el-button type="primary" @click="submitForm" style="margin-left: 100px">添加评价</el-button>
     </div>
 </template>
 
@@ -99,9 +106,6 @@ const submitForm = () => {
             }
         })
         instance.ctx.$refs['vForm'].resetFields()
-    }).catch(error => {
-        // Form Validation failed
-        ElMessage.error(error)
     })
 }
 

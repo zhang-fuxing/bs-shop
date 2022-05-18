@@ -14,18 +14,23 @@
             size="default"
             @submit.prevent
         >
-            <el-form-item label="用户名" prop="nickname" class="label-center-align required">
+
+            <el-form-item label="用户昵称" prop="nickname" class="label-center-align required">
+                <el-input v-model="regUser.nickname" type="text" clearable placeholder="用户用户昵称">
+                </el-input>
+            </el-form-item>
+            <el-form-item label="用户名" prop="nickname" class="label-center-align">
                 <el-input v-model="regUser.uname" type="text" clearable placeholder="用户名不可重复" @change="checkUnames">
                 </el-input>
             </el-form-item>
 
-            <el-form-item label="手机" prop="phone" class="label-center-align required">
+            <el-form-item label="手机*" prop="phone" class="label-center-align required">
                 <el-input v-model="regUser.phone" type="text" clearable placeholder="请输入电话号码" @change="checkPhones"/>
             </el-form-item>
             <el-form-item label="邮箱" prop="email" class="label-center-align">
                 <el-input v-model="regUser.email" clearable placeholder="请输入您的邮箱" type="text" @change="checkEmails"/>
             </el-form-item>
-            <el-form-item label="密码" prop="password" class="label-center-align required">
+            <el-form-item label="密码*" prop="password" class="label-center-align required">
                 <el-input type="password" :show-password="true" v-model="regUser.password" clearable placeholder="请输入您的登录密码"/>
             </el-form-item>
             <el-row>
@@ -51,7 +56,7 @@
                     </el-form-item>
                 </el-col>
             </el-row>
-            <el-form-item label="验证码">
+            <el-form-item label="验证码*">
                 <el-row>
                     <el-col :span="14">
                         <el-input type="text"/>

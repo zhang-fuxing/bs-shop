@@ -9,6 +9,7 @@
                     </template>
                 </el-input>
             </el-col>
+            <el-col :span="2" :offset="2"><el-button type="primary">退出登录</el-button> </el-col>
         </el-row>
         <template v-if="productList.length ===0">
             <el-empty description="description"/>

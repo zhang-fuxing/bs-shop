@@ -22,6 +22,18 @@
     </div>
 
     <div id="emailMa">
+        <p class="am-title">昵称更换</p>
+        <el-input clearable>
+            <template #prepend>
+                昵称
+            </template>
+            <template #append>
+                <el-button>修改</el-button>
+            </template>
+        </el-input>
+    </div>
+
+    <div id="emailMa">
         <p class="am-title">邮箱管理</p>
         <el-input clearable>
             <template #prepend>
@@ -105,9 +117,11 @@
 
 <script setup>
 import {reactive, ref} from 'vue'
-import {ElMessage} from 'element-plus'
+import {ElMessage, ElMessageBox} from 'element-plus'
 import {Plus, Upload} from '@element-plus/icons-vue'
 import store from "@/store";
+import send from "@/http";
+import {updatePassword} from "@/api";
 
 const imageUrl = ref('')
 let password0 = ref('')
@@ -121,10 +135,7 @@ const sex = ref(-1)
 const uploadURL = ref('http://localhost:9000/cimage/header')
 
 const handleAvatarSuccess = (response, uploadFile) => {
-    console.log(uploadFile)
     imageUrl.value = URL.createObjectURL(uploadFile.raw)
-    console.log(response)
-    console.log(imageUrl.value)
 }
 const beforeAvatarUpload = (rawFile) => {
     if (rawFile.type !== 'image/jpeg') {
@@ -137,7 +148,15 @@ const beforeAvatarUpload = (rawFile) => {
     return true
 }
 const submitPassword = () => {
-  ElMessage.info("提交密码修改，原密码" + password0.value + "新密码：" + password1.firstinput + "确认密码" + password1.secondinput)
+    if (password1.firstinput !== password1.secondinput) {
+        ElMessageBox.alert("两次新密码不一致");
+        return
+    }
+  send.post(updatePassword,{oldPassword: password0,newPassword:password1.firstinput}).then(resp => {
+      if (resp.code === -1) {
+          ElMessage.error("原密码错误")
+      }
+  })
 }
 </script>
 

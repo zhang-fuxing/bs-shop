@@ -16,10 +16,12 @@
                     </template>
                 </el-table-column>
                 <el-table-column prop="priceCount" label="订单价格" width="120"/>
-
+                <el-table-column label="状态">
+                    <el-button type="text" @click="dialog(scope.row.status)">已收货</el-button>
+                </el-table-column>
                 <el-table-column label="操作">
                     <template #default="scope">
-                        <el-button type="primary" @click="dialog(scope.row.id)">点击收货</el-button>
+                        <el-button type="text" @click="dialog(scope.row.status)">删除</el-button>
                     </template>
                 </el-table-column>
             </el-table>
@@ -31,7 +33,7 @@
             width="30%"
             center
         >
-            <span>{{ status }}</span>
+            <span>{{status}}</span>
         </el-dialog>
     </div>
 </template>
@@ -39,9 +41,9 @@
 <script setup>
 
 import {onMounted, ref} from "vue";
-import {ElMessageBox} from 'element-plus'
+import { ElMessageBox } from 'element-plus'
 import send from "@/http";
-import {getOrderReceive, received} from "@/api";
+import {getOrderReceive, getOrderReceive2} from "@/api";
 
 const orderList = ref([])
 const dialogVisible = ref(false)
@@ -52,19 +54,15 @@ const dialog = (p) => {
 }
 
 const getOrderList = () => {
-    send.post(getOrderReceive).then(resp => {
+    send.post(getOrderReceive2).then(resp => {
         orderList.value.length = 0;
         for (let i = 0; i < resp.content.length; i++) {
             orderList.value.push(resp.content[i])
         }
     })
 }
-const receive = (oid) => {
-    send.post(received+oid).then(()=>{
-        ElMessageBox.alert("收货成功")
-    })
-}
-onMounted(() => {
+
+onMounted(()=> {
     getOrderList()
 })
 </script>
@@ -82,7 +80,6 @@ onMounted(() => {
     text-align: left;
     font-size: 20px;
 }
-
 .content {
     margin: 10px;
 }

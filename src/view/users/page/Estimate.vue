@@ -8,8 +8,7 @@
                         <template #title>
                             <img :src="es.pimg" alt="..." style="width: 100px;height: 100px">
                             <p class="title-content">{{ es.pname }}</p>
-                            <p class="title-content">
-                                {{ es.description }}
+                            <p class="title-content" v-html="es.description">
                             </p>
                         </template>
 

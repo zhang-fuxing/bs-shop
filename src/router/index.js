@@ -32,9 +32,11 @@ const routes = [
             {path: 'home', component: () => import('@/view/users/page/UserHome.vue')},
             {path: 'address', component: ()=> import('@/view/users/page/Address.vue')},
             {path: 'waitOrder', component: ()=> import('@/view/users/page/WaitOrder.vue')},
-            {path: 'ReceivedOrder', component: ()=> import('@/view/users/page/ReceivedOrder.vue')},
+            {path: 'receivedOrder', component: ()=> import('@/view/users/page/ReceivedOrder.vue')},
+            {path: 'receivedOrder2', component: ()=> import('@/view/users/page/ReceivedOrder2.vue')},
             {path: 'accountManage', component: ()=> import('@/view/users/page/AccountManage.vue')},
             {path: 'estimate', component: ()=> import('@/view/users/page/Estimate.vue')},
+
         ]
     },
 
@@ -49,6 +51,7 @@ const routes = [
             {path: 'recommend', component: () => import('@/view/admin/active/Recommend.vue')},
             {path: 'userList', component: () => import('@/view/admin/active/UserList.vue')},
             {path: 'freeze', component: () => import('@/view/admin/active/Freeze.vue')},
+            {path: 'carousel', component: ()=> import('@/view/admin/active/CarouselMa.vue')},
 
         ]
     },

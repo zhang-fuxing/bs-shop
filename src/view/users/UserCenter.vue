@@ -7,7 +7,7 @@
 
         <!--具体页面操作-->
         <div class="user-page">
-            <div style="font-size: 30px">
+            <div style="font-size: 10px;width: 100%;margin-top: 50px;margin-left: 20px;color: red">
 
                 当前位置
                 <el-icon>
@@ -45,10 +45,13 @@ watch(()=>route.path,newPath => {
             currentMap.value='用户中心>地址管理';
             break;
         case '/center/waitOrder':
-            currentMap.value='用户中心>未支付';
+            currentMap.value='用户中心>待发货';
             break;
         case '/center/receivedOrder':
-            currentMap.value='用户中心 > 已支付';
+            currentMap.value='用户中心 > 待收货';
+            break;
+        case '/center/receivedOrder2':
+            currentMap.value='用户中心 > 已收货';
             break;
         case '/center/accountManage':
             currentMap.value='用户中心>账号管理';

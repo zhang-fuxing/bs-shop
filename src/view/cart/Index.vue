@@ -3,13 +3,13 @@
         <Header></Header>
         <el-row>
             <el-col :span="8">
-                icon
+                <h2>I-SHOP</h2>
             </el-col>
             <el-col :span="8">
-                <el-input v-model="str"  placeholder="Please input" clearable />
+                <el-input v-model="str"  placeholder="......" clearable />
             </el-col>
             <el-col :span="8">
-                <el-button type="primary" plain>Primary</el-button>
+                <el-button type="primary" plain>搜索</el-button>
             </el-col>
         </el-row>
 

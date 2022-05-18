@@ -1,6 +1,6 @@
 <template>
     <el-col :span="4">
-        <h5 class="mb-2">憨批商城后台管理</h5>
+        <h2 class="mb-2">I-SHOP后台管理</h2>
 <!--        unique-opened-->
         <el-menu
             active-text-color="#ffd04b"
@@ -23,6 +23,7 @@
                 <el-menu-item index="addProduct">添加商品</el-menu-item>
                 <el-menu-item index="orderProcessing">订单处理</el-menu-item>
                 <el-menu-item index="recommend">推荐商品</el-menu-item>
+                <el-menu-item index="carousel">轮播管理</el-menu-item>
             </el-sub-menu>
 
             <el-sub-menu index="2">

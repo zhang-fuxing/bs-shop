@@ -65,7 +65,7 @@
                 <el-col :span="8">
                     <el-button type="primary" @click="toggleSelection(userCart)">反选</el-button>
                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    <span>购物车（全部{{ count }}）</span>
+                    <span>购物车（全部{{ multipleSelection.length }}）</span>
                 </el-col>
                 <el-col :span="8" :offset="8">
                     <div class="cart-sum">
@@ -82,7 +82,6 @@
 
 
     <div>
-        <!--立即购买弹窗-->
         <el-dialog
             v-model="centerDialogVisible"
             title="确认订单"
@@ -160,8 +159,8 @@
             <p>真的要删除吗？</p>
             <template #footer>
               <span class="dialog-footer">
-                    <el-button @click="isRemove = false">我点错了</el-button>
-                <el-button type="primary" @click="isRemove = true">确定删除</el-button>
+                    <el-button @click="removeNo">我点错了</el-button>
+                <el-button type="primary" @click="removeOk">确定删除</el-button>
               </span>
             </template>
         </el-dialog>
@@ -187,6 +186,7 @@ const addressSet = ref([])
 
 const isRemove = ref(false)
 const payDialog = ref(false)
+const tempCid = ref()
 // 根据uid查询用户购物车信息
 const getCarts = () => {
     if (userCart.length !== 0) {
@@ -267,18 +267,22 @@ const endSelect = () => {
     })
 }
 
+
 const removeCartItem = (cid) => {
     isRemove.value = true
-    if (isRemove) {
-        send.post(removeCartItems+cid).then(resp => {
+    tempCid.value = cid
+}
+const removeOk = () => {
+        send.post(removeCartItems+tempCid.value).then(resp => {
             ElMessage.success("成功删除")
             getCarts()
+            isRemove.value = false
         })
-    } else {
-        ElMessage.success("下次小心哦！")
-    }
 }
-
+const removeNo = () => {
+    ElMessage.success("下次小心哦。");
+    isRemove.value = false
+}
 </script>
 
 <style scoped>

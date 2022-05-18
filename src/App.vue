@@ -18,7 +18,7 @@ onMounted(()=>{
 
 <style>
 body {
-   background-color: black;
+   background-color: #3dc0d7;
 
 }
 .app-vue {

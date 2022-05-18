@@ -2,10 +2,10 @@
 
     <el-radio-group v-model="isCollapse" style="margin-bottom: 20px">
         <el-radio-button :label="false" v-show="isCollapse" style="background-color: #719dc9">展开</el-radio-button>
-        <el-radio-button :label="true" v-show="!isCollapse" style="background-color: #719dc9">收起</el-radio-button>
+        <el-radio-button :label="true" v-show="!isCollapse" style="width: 200px">收起</el-radio-button>
     </el-radio-group>
     <el-menu
-        default-active="1"
+        default-active="/center/home"
         class="el-menu-vertical-demo"
         :collapse="isCollapse"
         router
@@ -13,7 +13,7 @@
         @close="handleClose"
     >
 
-        <el-menu-item index="1" route="/center/home">
+        <el-menu-item index="/center/home">
             <el-icon>
                 <icon-menu/>
             </el-icon>
@@ -22,7 +22,7 @@
             </template>
         </el-menu-item>
 
-        <el-menu-item index="2" route="/center/address">
+        <el-menu-item index="/center/address">
             <el-icon>
                     <location/>
             </el-icon>
@@ -40,16 +40,19 @@
             </template>
             <el-menu-item-group>
                 <template #title></template>
-                <el-menu-item index="3-1" route="/center/waitOrder">
+                <el-menu-item index="/center/waitOrder">
                         待发货
                 </el-menu-item>
-                <el-menu-item index="3-2" route="/center/receivedOrder">
+                <el-menu-item index="/center/receivedOrder">
                         待收货
+                </el-menu-item>
+                <el-menu-item index="/center/receivedOrder2">
+                    已收货
                 </el-menu-item>
             </el-menu-item-group>
         </el-sub-menu>
 
-        <el-menu-item index="4" route="/center/accountManage">
+        <el-menu-item index="/center/accountManage">
             <el-icon>
                 <setting/>
             </el-icon>
@@ -57,7 +60,7 @@
                     账号管理
             </template>
         </el-menu-item>
-        <el-menu-item index="5" route="/center/estimate">
+        <el-menu-item index="/center/estimate">
             <el-icon>
                 <ChatDotSquare/>
             </el-icon>
@@ -97,6 +100,8 @@ const handleClose = (key, keyPath) => {
 }
 
 .el-radio-button__inner {
-    background-color: #000000;
+    background-color: #4acfff;
+    width: 100%;
+    color: white;
 }
 </style>
